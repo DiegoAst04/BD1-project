@@ -12,7 +12,7 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)), url(../img/background.jpg);
+  background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(../img/background.jpg);
   background-position: center center;
   background-size: cover;
 }
@@ -48,7 +48,7 @@ body {
   margin-bottom: auto;
   margin-left: auto;
   margin-right: auto;
-  max-width: 486px;
+  min-width: 500px;
 }
 
 form {
@@ -92,12 +92,16 @@ label {
 }
 
 input, select {
-  padding: 0 0 0 42px;
+  padding: 0 10px 0 42px;
   height: 38px;
   font-size: 21px;
   border: none;
   border-radius: 16px;
   outline: none;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
 }
 
 .icon {
