@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- SQL XML created by WWW SQL Designer, https://github.com/ondras/wwwsqldesigner/ -->
+<!-- Active URL: https://sql.toad.cz/ -->
+<sql>
+<datatypes db="mysql">
+	<group label="Numeric" color="rgb(238,238,170)">
+		<type label="Integer" length="0" sql="INTEGER" quote=""/>
+	 	<type label="TINYINT" length="0" sql="TINYINT" quote=""/>
+	 	<type label="SMALLINT" length="0" sql="SMALLINT" quote=""/>
+	 	<type label="MEDIUMINT" length="0" sql="MEDIUMINT" quote=""/>
+	 	<type label="INT" length="0" sql="INT" quote=""/>
+		<type label="BIGINT" length="0" sql="BIGINT" quote=""/>
+		<type label="Decimal" length="1" sql="DECIMAL" re="DEC" quote=""/>
+		<type label="Single precision" length="0" sql="FLOAT" quote=""/>
+		<type label="Double precision" length="0" sql="DOUBLE" re="DOUBLE" quote=""/>
+	</group>
+
+	<group label="Character" color="rgb(255,200,200)">
+		<type label="Char" length="1" sql="CHAR" quote="'"/>
+		<type label="Varchar" length="1" sql="VARCHAR" quote="'"/>
+		<type label="Text" length="0" sql="MEDIUMTEXT" re="TEXT" quote="'"/>
+		<type label="Binary" length="1" sql="BINARY" quote="'"/>
+		<type label="Varbinary" length="1" sql="VARBINARY" quote="'"/>
+		<type label="BLOB" length="0" sql="BLOB" re="BLOB" quote="'"/>
+	</group>
+
+	<group label="Date &amp; Time" color="rgb(200,255,200)">
+		<type label="Date" length="0" sql="DATE" quote="'"/>
+		<type label="Time" length="0" sql="TIME" quote="'"/>
+		<type label="Datetime" length="0" sql="DATETIME" quote="'"/>
+		<type label="Year" length="0" sql="YEAR" quote=""/>
+		<type label="Timestamp" length="0" sql="TIMESTAMP" quote="'"/>
+	</group>
+	
+	<group label="Miscellaneous" color="rgb(200,200,255)">
+		<type label="ENUM" length="1" sql="ENUM" quote=""/>
+		<type label="SET" length="1" sql="SET" quote=""/>
+		<type label="Bit" length="0" sql="bit" quote=""/>
+	</group>
+</datatypes><table x="104" y="141" name="Sucursal">
+<row name="ID" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="dirección" null="1" autoincrement="0">
+<datatype>VARCHAR(128)</datatype>
+<default>NULL</default></row>
+<row name="teléfono" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="ID_Evento" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Evento" row="ID" />
+</row>
+<row name="DNI_Empleado" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Empleado" row="DNI" />
+</row>
+<row name="ID_Caja" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Caja" row="ID" />
+</row>
+<key type="PRIMARY" name="">
+<part>ID</part>
+<part>ID_Evento</part>
+<part>DNI_Empleado</part>
+</key>
+</table>
+<table x="310" y="163" name="Empleado">
+<row name="DNI" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="nombre" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="apellido" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="puesto" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="teléfonos" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="salario" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="contraseña" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="ID_Mesa" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Mesa" row="ID" />
+</row>
+<row name="ID_Pedido" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Pedido" row="ID" />
+</row>
+<key type="PRIMARY" name="">
+<part>DNI</part>
+<part>ID_Mesa</part>
+<part>ID_Pedido</part>
+</key>
+</table>
+<table x="299" y="432" name="Caja">
+<row name="ID" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="Ganancias" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="DNI_Empleado" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Empleado" row="DNI" />
+</row>
+<key type="PRIMARY" name="">
+<part>ID</part>
+<part>DNI_Empleado</part>
+</key>
+</table>
+<table x="100" y="650" name="Plato">
+<row name="ID" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="nombre" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="descripción" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="tipo" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="precio" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>ID</part>
+</key>
+</table>
+<table x="523" y="597" name="Ingrediente">
+<row name="ID" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="nombre" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="tipo" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="costo" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>ID</part>
+</key>
+</table>
+<table x="851" y="425" name="Factura">
+<row name="ID" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="fecha" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default></row>
+<row name="monto" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="propina" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="metodo_pago" null="1" autoincrement="0">
+<datatype>CHAR</datatype>
+<default>NULL</default></row>
+<row name="ID_Pedido" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Pedido" row="ID" />
+</row>
+<key type="PRIMARY" name="">
+<part>ID</part>
+</key>
+</table>
+<table x="855" y="650" name="Proveedor">
+<row name="RUC" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="nombre" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="direccion" null="1" autoincrement="0">
+<datatype>VARCHAR(128)</datatype>
+<default>NULL</default></row>
+<row name="telefonos" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>RUC</part>
+</key>
+</table>
+<table x="524" y="261" name="Mesa">
+<row name="ID" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="n_mesa" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="capacidad" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="ubicacion" null="1" autoincrement="0">
+<datatype>VARCHAR(8)</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>ID</part>
+</key>
+</table>
+<table x="685" y="277" name="Reserva">
+<row name="ID" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="fecha" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default></row>
+<row name="hora" null="1" autoincrement="0">
+<datatype>TIME</datatype>
+<default>NULL</default></row>
+<row name="n_personas" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="ID_Mesa" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Mesa" row="ID" />
+</row>
+<row name="DNI_Cliente" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Cliente" row="DNI" />
+</row>
+<key type="PRIMARY" name="">
+<part>ID</part>
+<part>ID_Mesa</part>
+<part>DNI_Cliente</part>
+</key>
+</table>
+<table x="103" y="337" name="Evento">
+<row name="ID" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="nombre" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="fecha" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default></row>
+<row name="lugar" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="descripción" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>ID</part>
+</key>
+</table>
+<table x="522" y="752" name="Promoción">
+<row name="ID" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="f_inicio" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default></row>
+<row name="f_fin" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default></row>
+<row name="descuento" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="descripción" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>ID</part>
+</key>
+</table>
+<table x="535" y="73" name="Horarios">
+<row name="ID" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="fecha" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default></row>
+<row name="turno" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="DNI_Empleado" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Empleado" row="DNI" />
+</row>
+<key type="PRIMARY" name="">
+<part>ID</part>
+<part>DNI_Empleado</part>
+</key>
+</table>
+<table x="1109" y="232" name="Encuesta_satisfaccion">
+<row name="ID" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="fecha" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default></row>
+<row name="preg_resp" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="comentarios" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>ID</part>
+</key>
+</table>
+<table x="670" y="114" name="Reclamo">
+<row name="ID" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="fecha" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default></row>
+<row name="descripción" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="DNI_Cliente" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Cliente" row="DNI" />
+</row>
+<row name="DNI_Empleado" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Empleado" row="DNI" />
+</row>
+<key type="PRIMARY" name="">
+<part>ID</part>
+<part>DNI_Cliente</part>
+<part>DNI_Empleado</part>
+</key>
+</table>
+<table x="517" y="423" name="Pedido">
+<row name="ID" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="fecha" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default></row>
+<row name="hora" null="1" autoincrement="0">
+<datatype>TIME</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>ID</part>
+</key>
+</table>
+<table x="695" y="775" name="Inventario">
+<row name="ID" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="cantidad" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="nivel_alerta" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="ID_Ingrediente" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Ingrediente" row="ID" />
+</row>
+<key type="PRIMARY" name="">
+<part>ID</part>
+</key>
+</table>
+<table x="877" y="171" name="Cliente">
+<row name="DNI" null="1" autoincrement="1">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="nombre" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="apellido" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="domicilio" null="1" autoincrement="0">
+<datatype>VARCHAR(128)</datatype>
+<default>NULL</default></row>
+<row name="teléfonos" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="ID_Evaluación" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="ID_Encuesta_satisfaccion" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Encuesta_satisfaccion" row="ID" />
+</row>
+<row name="ID_Factura" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Factura" row="ID" />
+</row>
+<key type="PRIMARY" name="">
+<part>DNI</part>
+<part>ID_Evaluación</part>
+<part>ID_Encuesta_satisfaccion</part>
+<part>ID_Factura</part>
+</key>
+</table>
+<table x="100" y="523.1111145019531" name="evento_plato">
+<row name="ID_Evento" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Evento" row="ID" />
+</row>
+<row name="ID_Plato" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Plato" row="ID" />
+</row>
+<key type="PRIMARY" name="">
+<part>ID_Evento</part>
+<part>ID_Plato</part>
+</key>
+</table>
+<table x="289" y="807.1111145019531" name="plato_promocion">
+<row name="ID_Plato" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Plato" row="ID" />
+</row>
+<row name="ID_Promoción" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Promoción" row="ID" />
+</row>
+<key type="PRIMARY" name="">
+<part>ID_Plato</part>
+<part>ID_Promoción</part>
+</key>
+</table>
+<table x="287" y="699.3333435058594" name="ingrediente_plato">
+<row name="ID_Plato" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Plato" row="ID" />
+</row>
+<row name="ID_Ingrediente" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Ingrediente" row="ID" />
+</row>
+<key type="PRIMARY" name="">
+<part>ID_Plato</part>
+<part>ID_Ingrediente</part>
+</key>
+</table>
+<table x="695" y="640.3333435058594" name="suministra">
+<row name="ID_Ingrediente" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Ingrediente" row="ID" />
+</row>
+<row name="RUC_Proveedor" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Proveedor" row="RUC" />
+</row>
+<key type="PRIMARY" name="">
+<part>ID_Ingrediente</part>
+<part>RUC_Proveedor</part>
+</key>
+</table>
+<table x="291" y="599.2222290039062" name="plato_pedido">
+<row name="ID_Plato" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Plato" row="ID" />
+</row>
+<row name="ID_Pedido" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default><relation table="Pedido" row="ID" />
+</row>
+<key type="PRIMARY" name="">
+<part>ID_Plato</part>
+<part>ID_Pedido</part>
+</key>
+</table>
+</sql>
