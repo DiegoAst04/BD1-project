@@ -17,9 +17,9 @@ body {
   background-size: cover;
 }
 .login-screen {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   height: 100%;
+  display: grid;
+    grid-template-columns: 1fr 1fr;
 }
 
 .register {
@@ -31,15 +31,20 @@ body {
 
 .presentation {
   color: white;
-  margin: 120px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 90px;
+  display: flex;
+    flex-direction: column;
 }
-.presentation > .bvnd {
- font-size: 96px;
+.presentation > #bvnd {
+ font-size: 100px;
+ margin-bottom: 20px;
 }
-.presentation > .hora {
- font-size: 128px;
+.presentation > #hora {
+ font-size: 116px;
 }
-.presentation > .fecha {
+.presentation > #fecha {
  font-size: 32px;
 }
 
