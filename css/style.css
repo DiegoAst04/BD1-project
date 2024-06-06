@@ -130,6 +130,11 @@ button:hover {
   background-color: #555555;
 }
 
+.aun {
+  color: white;
+  font-weight: 200;
+}
+
 a:link {
   color: white;
 }

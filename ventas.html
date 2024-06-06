@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es-PE">
+  <head>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Empleados</title>
+  <!--CDN Font Awesome-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"> </script>
+<body>
+  <header>
+    <div class="restaurant"></div>
+  </header>
+  <article>
+    <div class="sidebar">
+      <ul class="upper">
+        <li>
+          <div class="icon">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+          Ventas
+        </li>
+        <li>
+          <div class="icon">
+            <i class="fa-solid fa-sheet-plastic"></i>
+          </div>
+          Pedidos
+        </li>
+        <li>
+          <div class="icon">
+            <i class="fa-solid fa-users"></i>
+          </div>
+          Empleados
+        </li>
+        <li>
+          <div class="icon">
+            <i class="fa-solid fa-cart-shopping"></i>
+          </div>
+          Productos
+        </li>
+        <li>
+          <div class="icon">
+            <i class="fa-solid fa-plus"></i>
+          </div>
+          y otra más
+        </li>
+      </ul>
+      <ul class="lower">
+        <li>
+          <div class="icon">
+            <i class="fa-solid fa-gear"></i>
+          </div>
+          Configuración
+        </li>
+        <li>
+          <div class="icon">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </div>
+          Cerrar Sesión
+        </li>
+      </ul>
+    </div>
+    <div class="content">
+      <h2>Cuadro de ventas</h2>
+      <canvas id="grafico"></canvas>
+    </div>
+  </article>
+</body>
+<script src="js/script.js"></script>
+<script>
+  const $grafico = document.querySelector("#grafico");
+  const xValues = [50,60,70,80,90,100,110,120,130,140,150];
+  const yValues = [7,8,8,9,9,9,10,11,14,14,15];
+
+  var chart = new Chart($grafico, {
+    type: "line",
+    data: {
+      labels: xValues,
+      datasets: [{
+        fill: false,
+        lineTension: 0,
+        borderColor: "rgba(0,255,0,0.5)",
+        data: yValues
+      }]
+    },
+    options: {
+      legend: {display: false},
+      scales: {
+        xAxes: [{
+          gridLines: {
+            color: "rgba(255,255,255,0.1 )"
+          }
+        }],
+        yAxes: [{
+          gridLines: {
+            color: "rgba(255,255,255,0.1)"
+          },
+          ticks: {min: 5, max: 15},
+          beginAtZero: true
+        }]
+      }
+    }
+  });
+</script>
+</html>

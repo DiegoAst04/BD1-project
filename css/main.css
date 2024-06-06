@@ -1,0 +1,86 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #022237;
+  font-family: 'Inter', sans-serif;
+  color: white;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #011F2E;
+}
+
+.restaurant {
+  width: 260px;
+  height: 100%;
+  background-color: #032D42;
+}
+
+article {
+  margin-top: 60px;
+  height: calc(100vh - 60px);
+  display: flex;
+    flex-direction: row;
+}
+
+.sidebar {
+  width: 260px;
+  height: 100%;
+  background-color: #00364A;
+  border: 0.5px solid #777777;
+  display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+ul {
+  outline: 0.5px solid #777777;
+  border-radius: 4px;
+  padding: 12px 5px;
+  display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+li {
+  font-size: 16px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: flex;
+    gap: 16px;
+    align-items: center;
+}
+li:hover {
+  background-color: #075378;
+}
+.icon {
+  width: 25px;
+  height: 25px;
+  display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+  padding: 16px 24px;
+}
+
+h2 {
+  margin: 15px;
+  font-size: 30px;
+}
+
+canvas {
+  width: 100%;
+  height: 600px;
+  }
