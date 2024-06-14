@@ -67,61 +67,34 @@
       </ul>
     </div>
     <div class="content">
-      <h2>Lista de Empleados</h2>
-      <div>
-        <table class="table" id="empleados">
-          <tr>
-            <th>DNI</th>
-            <th>Nombre</th>
-            <th>Apellido</th>
-            <th>Puesto</th>
-            <th>Salario</th>
-            <th>Teléfono</th>
-            <th></th>
-          </tr>
-        </table>
-      </div>
-    </div>
-</body>
-<script>
-  const $tablaEmpleados = document.getElementById("empleados")
-  var datos = [
-    { dni: "12345678", nombre: "María", apellido: "Lourenco", puesto: "Chef Principal", salario: "$1975", telefono: 916748057 },
-    { dni: "23456789", nombre: "Pedro", apellido: "Pretley", puesto: "Cocinero", salario: "$1686", telefono: 916136876 },
-    { dni: "34567890", nombre: "Juan", apellido: "Jesteco", puesto: "Mesero", salario: "$1566", telefono: 910991733 },
-    { dni: "45678901", nombre: "Carlos", apellido: "Bodycomb", puesto: "Caja", salario: "$1913", telefono: 931139473 },
-    { dni: "56789012", nombre: "Luis", apellido: "Crummay", puesto: "Mesero", salario: "$1436", telefono: 925127171 },
-    { dni: "67890123", nombre: "Ana", apellido: "García", puesto: "Barman", salario: "$1600", telefono: 910203040 },
-    { dni: "78901234", nombre: "José", apellido: "Martínez", puesto: "Repartidor", salario: "$1500", telefono: 910405060 },
-    { dni: "89012345", nombre: "Laura", apellido: "López", puesto: "Hostess", salario: "$1450", telefono: 910607080 },
-    { dni: "90123456", nombre: "Andrea", apellido: "Rodríguez", puesto: "Ayudante de Cocina", salario: "$1350", telefono: 910809010 },
-    { dni: "01234567", nombre: "Miguel", apellido: "Sánchez", puesto: "Bartender", salario: "$1550", telefono: 910111213 },
-    { dni: "98765432", nombre: "Rosa", apellido: "Hernández", puesto: "Camarero", salario: "$1480", telefono: 910131415 },
-    { dni: "87654321", nombre: "Carlos", apellido: "Gómez", puesto: "Cajero", salario: "$1650", telefono: 910161718 },
-    { dni: "76543210", nombre: "Elena", apellido: "Pérez", puesto: "Lavaplatos", salario: "$1300", telefono: 910192021 },
-    { dni: "65432109", nombre: "Jorge", apellido: "Fernández", puesto: "Supervisor de Sala", salario: "$1800", telefono: 910222324 },
-    { dni: "54321098", nombre: "Ana", apellido: "Díaz", puesto: "Encargado de Almacén", salario: "$1700", telefono: 910252627 }
-];
-
-  datos.forEach(function(dato) {
-    var fila = $tablaEmpleados.insertRow();
-    var cDni = fila.insertCell(0),
-      cNombre = fila.insertCell(1),
-      cApellido = fila.insertCell(2),
-      cPuesto = fila.insertCell(3),
-      cSalario = fila.insertCell(4),
-      cTelefono = fila.insertCell(5),
-      cBoton = fila.insertCell(6);
-
-    cDni.innerHTML = dato.dni;
-    cNombre.innerHTML = dato.nombre;
-    cApellido.innerHTML = dato.apellido;
-    cPuesto.innerHTML = dato.puesto;
-    cSalario.innerHTML = dato.salario;
-    cTelefono.innerHTML = dato.telefono;
-
-    cBoton.innerHTML = '<button class="btn-delete"><i class="fas fa-trash-alt"></i></button>'
-    cBoton.classList.add("center")
-  });
+      <h1>Lista de Empleados</h1>
+      <table>
+          <thead>
+              <tr>
+                  <th>DNI</th>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Puesto</th>
+                  <th>Salario</th>
+                  <th>Sucursal</th>
+                  <th>Caja</th>
+                  <th>Horarios</th>
+              </tr>
+          </thead>
+          <tbody>
+              <% empleados.forEach(empleado => { %>
+                  <tr>
+                      <td><%= empleado.DNI %></td>
+                      <td><%= empleado.nombre %></td>
+                      <td><%= empleado.apellido %></td>
+                      <td><%= empleado.puesto %></td>
+                      <td><%= empleado.salario %></td>
+                      <td><%= empleado.ID_Sucursal %></td>
+                      <td><%= empleado.ID_Caja %></td>
+                      <td><%= empleado.ID_Horarios %></td>
+                  </tr>
+              <% }); %>
+          </tbody>
+      </table>
 </script>
 </html>

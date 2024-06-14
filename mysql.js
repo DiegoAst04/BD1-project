@@ -169,9 +169,16 @@ app.post("/register", (req, res) => {
 });
 
 app.get("/empleados", (req, res) => {
-    res.render("empleados");
+    const query = "SELECT * FROM empleado";
+    connection.query(query, (err, results) => {
+        if (err) {
+            console.error('Error: ', err.message);
+            res.status(500).send("Error en el servidor");
+            return;
+        }
+        res.render("empleados", { empleados: results });
+    });
 });
-
 // Iniciar el servidor en el puerto 3000
 const PORT = 3000;
 app.listen(PORT, () => {
