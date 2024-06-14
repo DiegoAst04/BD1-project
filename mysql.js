@@ -169,7 +169,7 @@ app.post("/register", (req, res) => {
 });
 
 app.get("/empleados", (req, res) => {
-    const query = "SELECT * FROM empleado";
+    const query = "SELECT e.DNI, e.nombre, e.apellido, e.puesto, e.salario, e.ID_Sucursal, e.ID_Caja, h.turno FROM Empleado e INNER JOIN Horarios h ON e.ID_Horarios = h.ID";
     connection.query(query, (err, results) => {
         if (err) {
             console.error('Error: ', err.message);

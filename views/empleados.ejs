@@ -67,8 +67,8 @@
       </ul>
     </div>
     <div class="content">
-      <h1>Lista de Empleados</h1>
-      <table>
+      <h2>Lista de Empleados</h2>
+      <table class="table" id="empleados">
           <thead>
               <tr>
                   <th>DNI</th>
@@ -79,6 +79,7 @@
                   <th>Sucursal</th>
                   <th>Caja</th>
                   <th>Horarios</th>
+                  <th></th>
               </tr>
           </thead>
           <tbody>
@@ -91,7 +92,8 @@
                       <td><%= empleado.salario %></td>
                       <td><%= empleado.ID_Sucursal %></td>
                       <td><%= empleado.ID_Caja %></td>
-                      <td><%= empleado.ID_Horarios %></td>
+                      <td><%= empleado.turno %></td>
+                      <td><button class="btn-delete"><i class="fas fa-trash-alt"></i></button></td>
                   </tr>
               <% }); %>
           </tbody>
