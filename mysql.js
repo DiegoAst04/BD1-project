@@ -28,18 +28,53 @@ app.use(express.urlencoded({ extended: false }));
 app.get("/", (req, res) => {
     res.render("login");
 });
+
 app.post("/login", (req, res) => {
     const infoLogin = req.body;
     console.log(infoLogin);
-})
+
+    const { id, password } = infoLogin;
+
+    const find_user = "SELECT * FROM empleado WHERE DNI = ?";
+    connection.query(find_user, [id], (err, rows) => {
+        if (err) {
+            console.error('Error: ', err.message);
+            res.status(500).send("Error");
+            return;
+        }
+        if (rows.length === 0) {
+            console.log("No existe cuenta");
+            res.status(400).send("Aún no tienes una cuenta, Regístrate");
+        } else {
+            const verificar_contrasenia = "SELECT contrasenia FROM empleado WHERE DNI = ?";
+            connection.query(verificar_contrasenia, [id], (err, results) => {
+                if (err) {
+                    console.error('Error: ', err.message);
+                    res.status(500).send("Error");
+                    return;
+                } else {
+                    if (results[0].contrasenia === password) {
+                        console.log("Cuenta verificada");
+                        res.redirect("/empleados");
+                    } else {
+                        console.log("Contraseña incorrecta");
+                        res.status(400).send("Contraseña incorrecta");
+                    }
+                }
+            });
+        }
+    });
+});
+
+
 app.get("/register", (req, res) => {
     res.render("register");
-    res.render("login");
 });
+
 // Validar datos de registro
 app.post("/register", (req, res) => {
     const infoRegister = req.body;
-    
+
     console.log(infoRegister);
 
     const { nombre, apellido, telefono, adresses, dni, puesto, correo, contrasenia, confirmar_contrasenia } = infoRegister;
@@ -49,7 +84,7 @@ app.post("/register", (req, res) => {
         res.status(400).send("Las contraseñas no coinciden");
         return;
     }
-    
+
     const find = "SELECT * FROM empleado WHERE dni = ?";
     connection.query(find, [dni], (err, rows) => {
         if (err) {
@@ -77,47 +112,64 @@ app.post("/register", (req, res) => {
                     salario = 65;
                     break;
                 default:
-                    // En caso de que el puesto no coincida con ninguno de los especificados
-                    salario = 0; // Puedes manejarlo de acuerdo a tus requisitos
+                    salario = 0;
                     break;
             }
 
             const Query_ID_Sucursal = "SELECT ID from Sucursal WHERE direccion = ?";
-            var ID_Sucursal_;
-            connection.query(Query_ID_Sucursal,[adresses], (err) => {
+            connection.query(Query_ID_Sucursal, [adresses], (err, result) => {
                 if (err) {
                     console.error('Error: ', err.message);
-                    res.status(500).send("No existe una sucursal con este dirección");
+                    res.status(500).send("No existe una sucursal con esta dirección");
                     return;
                 }
-                ID_Sucursal_ = Query_ID_Sucursal;
-            });
-            const ID_Caja = null;
-            if(puesto=='Cajero'){
-                const Query_ID_Caja = "SELECT ID from Caja WHERE ID_Sucursal = ?";
-                connection.query(Query_ID_Caja,[ID_Sucursal_], (err) => {
-                if (err) {
-                    console.error('Error: ', err.message);
-                    return;
-                }
-                ID_Caja = Query_ID_Caja;
-            });
-            }
-            const ID_Horarios = null;
-            const registrar = "INSERT INTO empleado (DNI, nombre, apellido, puesto, contrasenia, salario, ID_Sucursal, ID_Caja, ID_Horarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            const values = [dni, nombre, apellido, puesto, contrasenia, salario, contrasenia, ID_Sucursal_, ID_Caja, ID_Horarios];
+                const ID_Sucursal_ = result[0].ID;
+                let ID_Caja = null;
+                if (puesto === 'Cajero') {
+                    const Query_ID_Caja = "SELECT ID from Caja WHERE ID_Sucursal = ?";
+                    connection.query(Query_ID_Caja, [ID_Sucursal_], (err, result) => {
+                        if (err) {
+                            console.error('Error: ', err.message);
+                            return;
+                        }
+                        ID_Caja = result[0].ID;
 
-            connection.query(registrar, values, (err) => {
-                if (err) {
-                    console.error('Error: ', err.message);
-                    res.status(500).send("Error al registrar el usuario");
-                    return;
+                        const ID_Horarios = null;
+                        const registrar = "INSERT INTO empleado (DNI, nombre, apellido, puesto, contrasenia, salario, ID_Sucursal, ID_Caja, ID_Horarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        const values = [dni, nombre, apellido, puesto, contrasenia, salario, ID_Sucursal_, ID_Caja, ID_Horarios];
+
+                        connection.query(registrar, values, (err) => {
+                            if (err) {
+                                console.error('Error: ', err.message);
+                                res.status(500).send("Error al registrar el usuario");
+                                return;
+                            }
+                            console.log('Registrado correctamente');
+                            res.send("Registrado correctamente");
+                        });
+                    });
+                } else {
+                    const ID_Horarios = null;
+                    const registrar = "INSERT INTO empleado (DNI, nombre, apellido, puesto, contrasenia, salario, ID_Sucursal, ID_Caja, ID_Horarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    const values = [dni, nombre, apellido, puesto, contrasenia, salario, ID_Sucursal_, ID_Caja, ID_Horarios];
+
+                    connection.query(registrar, values, (err) => {
+                        if (err) {
+                            console.error('Error: ', err.message);
+                            res.status(500).send("Error al registrar el usuario");
+                            return;
+                        }
+                        console.log('Registrado correctamente');
+                        res.send("Registrado correctamente");
+                    });
                 }
-                console.log('Registrado correctamente');
-                res.send("Registrado correctamente");
             });
         }
     });
+});
+
+app.get("/empleados", (req, res) => {
+    res.render("empleados");
 });
 
 // Iniciar el servidor en el puerto 3000
