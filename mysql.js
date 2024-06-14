@@ -98,16 +98,16 @@ app.post("/register", (req, res) => {
             let salario;
 
             switch (puesto) {
-                case 'p1':
+                case 'Cajero':
                     salario = 75;
                     break;
-                case 'p2':
+                case 'Mozo':
                     salario = 60;
                     break;
-                case 'p3':
+                case 'Cocinero':
                     salario = 100;
                     break;
-                case 'p4':
+                case 'Mantenimiento':
                     salario = 65;
                     break;
                 default:
@@ -137,7 +137,7 @@ app.post("/register", (req, res) => {
 
                     const ID_Horarios = null;
                     const registrar = "INSERT INTO empleado (DNI, nombre, apellido, puesto, contrasenia, salario, ID_Sucursal, ID_Caja, ID_Horarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                    const values = [dni, nombre, apellido, puesto, contrasenia, salario, ID_Sucursal_, ID_Caja, ID_Horarios];
+                    const values = [dni, nombre, apellido, puesto, contrasenia, salario, ID_Sucursal_, ID_Caja, 2];
 
                     connection.query(registrar, values, (err) => {
                         if (err) {
@@ -145,14 +145,13 @@ app.post("/register", (req, res) => {
                             res.status(500).send("Error al registrar el usuario");
                             return;
                         }
-                        console.log('Registrado correctamente');
-                        res.send("Registrado correctamente");
+                        res.redirect("/empleados");
                     });
                 });
             } else {
-                const ID_Horarios = null;
+                const ID_Horarios = 1;
                 const registrar = "INSERT INTO empleado (DNI, nombre, apellido, puesto, contrasenia, salario, ID_Sucursal, ID_Caja, ID_Horarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                const values = [dni, nombre, apellido, puesto, contrasenia, salario, ID_Sucursal_, ID_Caja, ID_Horarios];
+                const values = [dni, nombre, apellido, puesto, contrasenia, salario, ID_Sucursal_, ID_Caja, 1];
 
                 connection.query(registrar, values, (err) => {
                     if (err) {
@@ -160,8 +159,7 @@ app.post("/register", (req, res) => {
                         res.status(500).send("Error al registrar el usuario");
                         return;
                     }
-                    console.log('Registrado correctamente');
-                    res.send("Registrado correctamente");
+                    res.redirect("/empleados");
                 });
             }
         }
