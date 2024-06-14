@@ -34,6 +34,7 @@ app.post("/login", (req, res) => {
 })
 app.get("/register", (req, res) => {
     res.render("register");
+    res.render("login");
 });
 // Validar datos de registro
 app.post("/register", (req, res) => {

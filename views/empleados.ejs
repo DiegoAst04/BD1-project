@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es-PE">
+  <head>
+    <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Empleados</title>
+  <!--CDN Font Awesome-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <header>
+    <div class="restaurant"></div>
+  </header>
+  <article>
+    <div class="sidebar">
+      <ul class="upper">
+        <li>
+          <div class="icon">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+          Ventas
+        </li>
+        <li>
+          <div class="icon">
+            <i class="fa-solid fa-sheet-plastic"></i>
+          </div>
+          Pedidos
+        </li>
+        <li>
+          <div class="icon">
+            <i class="fa-solid fa-users"></i>
+          </div>
+          Empleados
+        </li>
+        <li>
+          <div class="icon">
+            <i class="fa-solid fa-cart-shopping"></i>
+          </div>
+          Productos
+        </li>
+        <li>
+          <div class="icon">
+            <i class="fa-solid fa-plus"></i>
+          </div>
+          y otra más
+        </li>
+      </ul>
+      <ul class="lower">
+        <li>
+          <div class="icon">
+            <i class="fa-solid fa-gear"></i>
+          </div>
+          Configuración
+        </li>
+        <li>
+          <div class="icon">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </div>
+          Cerrar Sesión
+        </li>
+      </ul>
+    </div>
+    <div class="content">
+      <h2>Lista de Empleados</h2>
+      <div>
+        <table class="table" id="empleados">
+          <tr>
+            <th>DNI</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Puesto</th>
+            <th>Salario</th>
+            <th>Teléfono</th>
+            <th></th>
+          </tr>
+        </table>
+      </div>
+    </div>
+</body>
+<script>
+  const $tablaEmpleados = document.getElementById("empleados")
+  var datos = [
+    { dni: "12345678", nombre: "María", apellido: "Lourenco", puesto: "Chef Principal", salario: "$1975", telefono: 916748057 },
+    { dni: "23456789", nombre: "Pedro", apellido: "Pretley", puesto: "Cocinero", salario: "$1686", telefono: 916136876 },
+    { dni: "34567890", nombre: "Juan", apellido: "Jesteco", puesto: "Mesero", salario: "$1566", telefono: 910991733 },
+    { dni: "45678901", nombre: "Carlos", apellido: "Bodycomb", puesto: "Caja", salario: "$1913", telefono: 931139473 },
+    { dni: "56789012", nombre: "Luis", apellido: "Crummay", puesto: "Mesero", salario: "$1436", telefono: 925127171 },
+    { dni: "67890123", nombre: "Ana", apellido: "García", puesto: "Barman", salario: "$1600", telefono: 910203040 },
+    { dni: "78901234", nombre: "José", apellido: "Martínez", puesto: "Repartidor", salario: "$1500", telefono: 910405060 },
+    { dni: "89012345", nombre: "Laura", apellido: "López", puesto: "Hostess", salario: "$1450", telefono: 910607080 },
+    { dni: "90123456", nombre: "Andrea", apellido: "Rodríguez", puesto: "Ayudante de Cocina", salario: "$1350", telefono: 910809010 },
+    { dni: "01234567", nombre: "Miguel", apellido: "Sánchez", puesto: "Bartender", salario: "$1550", telefono: 910111213 },
+    { dni: "98765432", nombre: "Rosa", apellido: "Hernández", puesto: "Camarero", salario: "$1480", telefono: 910131415 },
+    { dni: "87654321", nombre: "Carlos", apellido: "Gómez", puesto: "Cajero", salario: "$1650", telefono: 910161718 },
+    { dni: "76543210", nombre: "Elena", apellido: "Pérez", puesto: "Lavaplatos", salario: "$1300", telefono: 910192021 },
+    { dni: "65432109", nombre: "Jorge", apellido: "Fernández", puesto: "Supervisor de Sala", salario: "$1800", telefono: 910222324 },
+    { dni: "54321098", nombre: "Ana", apellido: "Díaz", puesto: "Encargado de Almacén", salario: "$1700", telefono: 910252627 }
+];
+
+  datos.forEach(function(dato) {
+    var fila = $tablaEmpleados.insertRow();
+    var cDni = fila.insertCell(0),
+      cNombre = fila.insertCell(1),
+      cApellido = fila.insertCell(2),
+      cPuesto = fila.insertCell(3),
+      cSalario = fila.insertCell(4),
+      cTelefono = fila.insertCell(5),
+      cBoton = fila.insertCell(6);
+
+    cDni.innerHTML = dato.dni;
+    cNombre.innerHTML = dato.nombre;
+    cApellido.innerHTML = dato.apellido;
+    cPuesto.innerHTML = dato.puesto;
+    cSalario.innerHTML = dato.salario;
+    cTelefono.innerHTML = dato.telefono;
+
+    cBoton.innerHTML = '<button class="btn-delete"><i class="fas fa-trash-alt"></i></button>'
+    cBoton.classList.add("center")
+  });
+</script>
+</html>
