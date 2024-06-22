@@ -622,3 +622,40 @@ INSERT INTO Promocion (ID, descripcion, descuento) VALUES
 (3, 'Descuento de fidelidad', 15),
 (4, 'Descuento de cumpleaños', 20),
 (5, 'Descuento de primera visita', 5);
+
+-- Inserts para la tabla Proveedor
+INSERT INTO Proveedor (ID, nombre, direccion, telefono) VALUES
+(1, 'Proveedor de Bebidas', 'Calle de las Bebidas 123', '123456789'),
+(2, 'Proveedor de Carnes', 'Avenida de las Carnes 456', '987654321'),
+(3, 'Proveedor de Verduras', 'Calle de las Verduras 789', '111222333'),
+(4, 'Proveedor de Lácteos', 'Avenida de los Lácteos 101', '444555666'),
+(5, 'Proveedor de Postres', 'Boulevard de los Postres 202', '777888999');
+
+-- Inserts para la tabla Ingrediente
+INSERT INTO Ingrediente (ID, nombre, ID_Proveedor) VALUES
+(1, 'Coca-Cola', 1),
+(2, 'Ron', 1),
+(3, 'Carne de Res', 2),
+(4, 'Queso', 4),
+(5, 'Pollo', 2),
+(6, 'Verduras Mixtas', 3),
+(7, 'Pepperoni', 2),
+(8, 'Vainilla', 5),
+(9, 'Tomate', 3),
+(10, 'Limón', 3);
+
+-- Inserts para la tabla Plato_Ingrediente
+INSERT INTO Plato_Ingrediente (ID_Plato, ID_Ingrediente) VALUES
+(1, 1),  -- Coca-Cola
+(2, 2),  -- Mojito: Ron
+(3, 3),  -- Hamburguesa: Carne de Res
+(3, 4),  -- Hamburguesa: Queso
+(4, 5),  -- Ensalada César: Pollo
+(4, 6),  -- Ensalada César: Verduras Mixtas
+(6, 7),  -- Pizza: Pepperoni
+(6, 4),  -- Pizza: Queso
+(5, 8),  -- Helado: Vainilla
+(7, 9),  -- Sopa de Tomate: Tomate
+(8, 8),  -- Tiramisu: Vainilla
+(9, 10), -- Agua Mineral: Limón
+(10, 10);-- Limonada: Limón
