@@ -78,7 +78,7 @@ app.post("/register", (req, res) => {
 
     console.log(infoRegister);
 
-    const { nombre, apellido, telefono, adresses, dni, puesto, correo, contrasenia, confirmar_contrasenia } = infoRegister;
+    const { nombre, apellido, telefono, dni, puesto, horario, contrasenia, confirmar_contrasenia } = infoRegister;
 
     if (contrasenia !== confirmar_contrasenia) {
         console.log("Las contraseñas no coinciden");
@@ -117,30 +117,72 @@ app.post("/register", (req, res) => {
                     break;
             }
 
-            const ID_Sucursal_ = adresses;
             let ID_Caja = null;
 
             if (puesto === 'Cajero') {
-                const Query_ID_Caja = "SELECT ID from Caja WHERE ID_Sucursal = ?";
-                connection.query(Query_ID_Caja, [ID_Sucursal_], (err, result) => {
+                const Query_ID_Caja = "SELECT c.ID FROM Caja c LEFT JOIN Empleado e ON c.ID = e.ID_Caja GROUP BY c.ID ORDER BY COUNT(e.ID_Caja) ASC LIMIT 1;";
+                connection.query(Query_ID_Caja, (err, result) => {
                     if (err) {
                         console.error('Error: ', err.message);
                         res.status(500).send("Error en el servidor");
                         return;
                     }
-
                     if (result.length === 0) {
-                        console.log("No existe una caja para esta sucursal");
-                        res.status(400).send("No existe una caja para esta sucursal");
+                        console.log("No existe una caja");
+                        res.status(400).send("No existe una caja");
                         return;
                     }
-
                     ID_Caja = result[0].ID;
 
-                    const ID_Horarios = null;
-                    const registrar = "INSERT INTO empleado (DNI, nombre, apellido, puesto, contrasenia, salario, ID_Sucursal, ID_Caja, ID_Horarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                    const values = [dni, nombre, apellido, puesto, contrasenia, salario, ID_Sucursal_, ID_Caja, 2];
+                    // Proceed with the Horario query after ID_Caja is obtained
+                    let ID_Horario = null;
+                    const Query_ID_Horario = "SELECT ID FROM Horarios WHERE turno = ?";
+                    connection.query(Query_ID_Horario, [horario], (err, result) => {
+                        if (err) {
+                            console.error('Error: ', err.message);
+                            res.status(500).send("Error en el servidor");
+                            return;
+                        }
+                        if (result.length === 0) {
+                            console.log("No existe este horario");
+                            res.status(400).send("No existe este horario");
+                            return;
+                        }
+                        ID_Horario = result[0].ID;
 
+                        // Proceed with the registration after both ID_Caja and ID_Horario are obtained
+                        const registrar = "INSERT INTO empleado (DNI, nombre, apellido, puesto, contrasenia, salario, ID_Caja, ID_Horarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                        const values = [dni, nombre, apellido, puesto, contrasenia, salario, ID_Caja, ID_Horario];
+                        connection.query(registrar, values, (err) => {
+                            if (err) {
+                                console.error('Error: ', err.message);
+                                res.status(500).send("Error al registrar el usuario");
+                                return;
+                            }
+                            res.redirect("/empleados");
+                        });
+                    });
+                });
+            } else {
+                // If not 'Cajero', only get the ID_Horario and proceed with registration
+                let ID_Horario = null;
+                const Query_ID_Horario = "SELECT ID FROM Horarios WHERE turno = ?";
+                connection.query(Query_ID_Horario, [horario], (err, result) => {
+                    if (err) {
+                        console.error('Error: ', err.message);
+                        res.status(500).send("Error en el servidor");
+                        return;
+                    }
+                    if (result.length === 0) {
+                        console.log("No existe este horario");
+                        res.status(400).send("No existe este horario");
+                        return;
+                    }
+                    ID_Horario = result[0].ID;
+
+                    // Proceed with the registration after ID_Horario is obtained
+                    const registrar = "INSERT INTO empleado (DNI, nombre, apellido, puesto, contrasenia, salario, ID_Caja, ID_Horarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                    const values = [dni, nombre, apellido, puesto, contrasenia, salario, ID_Caja, ID_Horario];
                     connection.query(registrar, values, (err) => {
                         if (err) {
                             console.error('Error: ', err.message);
@@ -150,26 +192,13 @@ app.post("/register", (req, res) => {
                         res.redirect("/empleados");
                     });
                 });
-            } else {
-                const ID_Horarios = 1;
-                const registrar = "INSERT INTO empleado (DNI, nombre, apellido, puesto, contrasenia, salario, ID_Sucursal, ID_Caja, ID_Horarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                const values = [dni, nombre, apellido, puesto, contrasenia, salario, ID_Sucursal_, ID_Caja, 1];
-
-                connection.query(registrar, values, (err) => {
-                    if (err) {
-                        console.error('Error: ', err.message);
-                        res.status(500).send("Error al registrar el usuario");
-                        return;
-                    }
-                    res.redirect("/empleados");
-                });
             }
         }
     });
 });
 
 app.get("/empleados", (req, res) => {
-    const query = "SELECT e.DNI, e.nombre, e.apellido, e.puesto, e.salario, e.ID_Sucursal, e.ID_Caja, h.turno FROM Empleado e INNER JOIN Horarios h ON e.ID_Horarios = h.ID";
+    const query = "SELECT e.DNI, e.nombre, e.apellido, e.puesto, e.salario, e.ID_Caja, h.turno FROM Empleado e INNER JOIN Horarios h ON e.ID_Horarios = h.ID";
     connection.query(query, (err, results) => {
         if (err) {
             console.error('Error: ', err.message);
@@ -179,6 +208,7 @@ app.get("/empleados", (req, res) => {
         res.render("empleados", { empleados: results });
     });
 });
+
 // Iniciar el servidor en el puerto 3000
 const PORT = 3000;
 app.listen(PORT, () => {
