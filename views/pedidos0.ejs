@@ -81,19 +81,21 @@
                   <th>Fecha</th>
                   <th>Hora</th>
                   <th>Empleado</th>
+                  <th>Apellido</th>
                   <th># Mesa</th>
               </tr>
           </thead>
           <tbody>
-              <% pedidos.forEach(pedido => { %>
-                  <tr>
-                      <td><%= pedido.hora %></td>
-                      <td><%= pedido.fecha %></td>
-                      <td><%= pedido.DNI_empleado %></td>
-                      <td><%= pedido.ID_Mesa %></td>
-                  </tr>
-              <% }); %>
-          </tbody>
+            <% pedidos.forEach(pedido => { %>
+                <tr>
+                    <td><%= pedido.hora %></td>
+                    <td><%= pedido.fecha %></td>
+                    <td><%= pedido.nombre %></td>
+                    <td><%= pedido.apellido %></td>
+                    <td><%= pedido.ID_Mesa %></td>
+                </tr>
+            <% }); %>
+        </tbody>
       </table>
     </div>
 </script>

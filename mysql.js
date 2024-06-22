@@ -31,41 +31,61 @@ app.get("/", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-    const infoLogin = req.body;
-    console.log(infoLogin);
-
-    const { id, password } = infoLogin;
+    const { id, password } = req.body;
 
     const find_user = "SELECT * FROM empleado WHERE DNI = ?";
     connection.query(find_user, [id], (err, rows) => {
         if (err) {
-            console.error('Error: ', err.message);
-            res.status(500).send("Error");
-            return;
+            console.error('Error en la consulta SQL: ', err.message);
+            return res.status(500).send("Error en el servidor");
         }
+
         if (rows.length === 0) {
             console.log("No existe cuenta");
-            res.status(400).send("Aún no tienes una cuenta, Regístrate");
-        } else {
-            const verificar_contrasenia = "SELECT contrasenia FROM empleado WHERE DNI = ?";
-            connection.query(verificar_contrasenia, [id], (err, results) => {
+            return res.status(400).send("Aún no tienes una cuenta. Regístrate primero.");
+        }
+
+        const verificar_contrasenia = "SELECT contrasenia FROM empleado WHERE DNI = ?";
+        connection.query(verificar_contrasenia, [id], (err, results) => {
+            if (err) {
+                console.error('Error en la consulta SQL: ', err.message);
+                return res.status(500).send("Error en el servidor");
+            }
+
+            if (results.length === 0 || results[0].contrasenia !== password) {
+                console.log("Contraseña incorrecta");
+                return res.status(400).send("Contraseña incorrecta");
+            }
+
+            console.log("Cuenta verificada");
+
+            const view_page = "SELECT puesto FROM empleado WHERE DNI = ?";
+            connection.query(view_page, [id], (err, puesto_) => {
                 if (err) {
-                    console.error('Error: ', err.message);
-                    res.status(500).send("Error");
-                    return;
+                    console.error('Error en la consulta SQL: ', err.message);
+                    return res.status(500).send("Error en el servidor");
+                }
+
+                if (puesto_.length === 0) {
+                    console.log("Puesto no encontrado");
+                    return res.status(500).send("Error en el servidor");
+                }
+
+                const puesto = puesto_[0].puesto;
+
+                if (puesto === 'Cajero') {
+                    return res.redirect("/empleados");
+                } else if (puesto === 'Mozo') {
+                    return res.redirect("/pedidos0");
                 } else {
-                    if (results[0].contrasenia === password) {
-                        console.log("Cuenta verificada");
-                        res.redirect("/empleados");
-                    } else {
-                        console.log("Contraseña incorrecta");
-                        res.status(400).send("Contraseña incorrecta");
-                    }
+                    console.log("Puesto desconocido");
+                    return res.status(500).send("Error en el servidor");
                 }
             });
-        }
+        });
     });
 });
+
 
 app.get("/register", (req, res) => {
     res.render("register");
@@ -148,7 +168,12 @@ app.post("/register", (req, res) => {
                                 res.status(500).send("Error al registrar el teléfono");
                                 return;
                             }
-                            res.redirect("/empleados");
+                            if (puesto==='Cajero'){
+                                res.redirect("/empleados");
+                            }
+                            else if(puesto==='Mozo'){
+                                res.redirect("/pedidos0");
+                            };
                         });
                     });
                 });
@@ -186,6 +211,18 @@ app.get("/empleados", (req, res) => {
             return;
         }
         res.render("empleados", { empleados: results });
+    });
+});
+
+app.get("/pedidos0", (req, res) => {
+    const query = "SELECT p.hora, p.fecha, e.nombre, e.apellido, p.ID_Mesa FROM Pedido p INNER JOIN Empleado e ON p.DNI_empleado = e.DNI;";
+    connection.query(query, (err, results) => {
+        if (err) {
+            console.error('Error: ', err.message);
+            res.status(500).send("Error en el servidor");
+            return;
+        }
+        res.render("pedidos0", { pedidos: results });
     });
 });
 
