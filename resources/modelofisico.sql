@@ -475,3 +475,150 @@ ALTER TABLE `plato_ingrediente`
   ADD CONSTRAINT `fk_plato_ingrediente_Ingrediente1`
   FOREIGN KEY (`ID_Ingrediente`)
   REFERENCES `Ingrediente` (`ID`);
+
+-- Modificación de la tabla Factura para incluir ID_Promocion
+ALTER TABLE Factura ADD COLUMN ID_Promocion INT DEFAULT NULL;
+
+-- Inserts para la tabla Caja
+INSERT INTO Caja (ID, fecha_apertura, fecha_cierre, saldo_inicial, saldo_final, total_ingresos, total_egresos) VALUES
+(1, '2024-01-01', '2024-01-01', 1000, 1500, 500, 0),
+(2, '2024-01-01', '2024-01-01', 1000, 2000, 1000, 0),
+(3, '2024-01-01', '2024-01-01', 1000, 1800, 800, 0);
+
+-- Inserts para la tabla Horarios
+INSERT INTO Horarios (ID, turno, hora_inicio, hora_fin) VALUES
+(1, 'Mañana', '08:00:00', '16:00:00'),
+(2, 'Tarde', '16:00:00', '00:00:00'),
+(3, 'Noche', '00:00:00', '08:00:00');
+
+-- Inserts para la tabla Empleado
+INSERT INTO Empleado (DNI, nombre, apellido, puesto, contrasenia, salario, ID_Caja, ID_Horarios) VALUES
+(1, 'Juan', 'Pérez', 'Cajero', 'password1', 30000, 1, 1),
+(2, 'María', 'López', 'Cajero', 'password2', 30000, 2, 2),
+(3, 'Carlos', 'García', 'Cajero', 'password3', 30000, 3, 3),
+(4, 'Ana', 'Martínez', 'Mozo', 'password4', 25000, NULL, 1),
+(5, 'Luis', 'Hernández', 'Mozo', 'password5', 25000, NULL, 2),
+(6, 'Julia', 'Mendoza', 'Cajero', 'password6', 30000, 1, 1),
+(7, 'Ricardo', 'Díaz', 'Cajero', 'password7', 30000, 2, 2),
+(8, 'Sofía', 'Romero', 'Mozo', 'password8', 25000, NULL, 3),
+(9, 'David', 'Silva', 'Mozo', 'password9', 25000, NULL, 1),
+(10, 'Miguel', 'Fernández', 'Cajero', 'password10', 30000, 3, 3);
+
+-- Inserts para la tabla Cliente
+INSERT INTO Cliente (DNI, nombre, apellido, domicilio) VALUES
+(1, 'Pedro', 'González', 'Calle Falsa 123'),
+(2, 'Laura', 'Díaz', 'Avenida Siempre Viva 742'),
+(3, 'Lucía', 'Fernández', 'Calle Principal 456'),
+(4, 'Martín', 'Rodríguez', 'Plaza Mayor 789'),
+(5, 'Santiago', 'Sánchez', 'Calle del Sol 101'),
+(6, 'Valentina', 'Castro', 'Avenida del Parque 202'),
+(7, 'Mariana', 'Ruiz', 'Boulevard de los Sueños 303'),
+(8, 'Gustavo', 'Ortega', 'Callejón de las Flores 404'),
+(9, 'Alejandra', 'Vega', 'Ruta del Vino 505'),
+(10, 'Pablo', 'Cabrera', 'Camino Real 606');
+
+-- Inserts para la tabla Mesa
+INSERT INTO Mesa (ID, n_mesa, capacidad, ubicacion, DNI_Empleado, ID_Reserva) VALUES
+(1, 1, 4, 'Terraza', 4, NULL),
+(2, 2, 2, 'Interior', 5, NULL),
+(3, 3, 6, 'Patio', 4, NULL),
+(4, 4, 4, 'Terraza', 9, NULL),
+(5, 5, 2, 'Interior', 5, NULL),
+(6, 6, 6, 'Patio', 8, NULL),
+(7, 7, 4, 'Terraza', 4, NULL),
+(8, 8, 2, 'Interior', 5, NULL),
+(9, 9, 6, 'Patio', 8, NULL),
+(10, 10, 4, 'Terraza', 4, NULL);
+
+-- Inserts para la tabla Plato
+INSERT INTO Plato (ID, nombre, descripcion, tipo, precio) VALUES
+(1, 'Coca-Cola', 'Bebida refrescante', 'Bebida', 10),
+(2, 'Mojito', 'Coctel de ron', 'Coctel', 15),
+(3, 'Hamburguesa', 'Hamburguesa con queso', 'Plato Principal', 50),
+(4, 'Ensalada César', 'Ensalada con pollo', 'Entrante', 30),
+(5, 'Helado', 'Helado de vainilla', 'Postre', 20),
+(6, 'Pizza', 'Pizza de pepperoni', 'Plato Principal', 40),
+(7, 'Sopa de Tomate', 'Sopa caliente', 'Entrante', 15),
+(8, 'Tiramisu', 'Postre italiano', 'Postre', 25),
+(9, 'Agua Mineral', 'Bebida sin gas', 'Bebida', 5),
+(10, 'Limonada', 'Bebida refrescante', 'Bebida', 8);
+
+-- Inserts para la tabla Pedido
+INSERT INTO Pedido (ID, hora, fecha, DNI_Empleado, ID_Mesa) VALUES
+(1, '12:00:00', '2024-06-20', 4, 1),
+(2, '12:05:00', '2024-06-20', 4, 1),
+(3, '12:10:00', '2024-06-20', 4, 1),
+(4, '12:00:00', '2024-06-20', 5, 2),
+(5, '12:05:00', '2024-06-20', 5, 2),
+(6, '12:10:00', '2024-06-20', 5, 2),
+(7, '12:00:00', '2024-06-20', 4, 3),
+(8, '12:05:00', '2024-06-20', 4, 3),
+(9, '12:10:00', '2024-06-20', 4, 3),
+(10, '13:00:00', '2024-06-21', 9, 4),
+(11, '13:05:00', '2024-06-21', 9, 4),
+(12, '13:10:00', '2024-06-21', 9, 4),
+(13, '13:00:00', '2024-06-21', 5, 5),
+(14, '13:05:00', '2024-06-21', 5, 5),
+(15, '13:10:00', '2024-06-21', 5, 5),
+(16, '13:00:00', '2024-06-21', 8, 6),
+(17, '13:05:00', '2024-06-21', 8, 6),
+(18, '13:10:00', '2024-06-21', 8, 6),
+(19, '13:00:00', '2024-06-21', 4, 7),
+(20, '13:05:00', '2024-06-21', 4, 7);
+
+-- Inserts para la tabla Factura
+INSERT INTO Factura (ID, fecha, monto, propina, metodo_de_pago, DNI_Cliente, ID_Mesa, ID_Caja, ID_Promocion) VALUES
+(1, '2024-06-20', 75, 10, 1, 1, 1, 1, 1),
+(2, '2024-06-20', 90, 15, 1, 2, 2, 2, 2),
+(3, '2024-06-20', 75, 10, 1, 3, 3, 3, NULL),
+(4, '2024-06-21', 120, 20, 1, 4, 4, 1, 3),
+(5, '2024-06-21', 90, 15, 1, 5, 5, 2, 4),
+(6, '2024-06-21', 120, 20, 1, 6, 6, 3, NULL),
+(7, '2024-06-21', 75, 10, 1, 7, 7, 1, 5),
+(8, '2024-06-21', 90, 15, 1, 8, 8, 2, 1),
+(9, '2024-06-21', 120, 20, 1, 9, 9, 3, 2),
+(10, '2024-06-21', 75, 10, 1, 10, 10, 1, 3);
+
+-- Inserts para la tabla Reclamo
+INSERT INTO Reclamo (ID, fecha, descripcion, DNI_Empleado, DNI_Cliente) VALUES
+(1, '2024-06-20', 'Comida fría', 4, 1),
+(2, '2024-06-20', 'Servicio lento', 5, 2),
+(3, '2024-06-21', 'Plato incorrecto', 4, 3),
+(4, '2024-06-21', 'Bebida derramada', 9, 4),
+(5, '2024-06-21', 'Tiempo de espera', 5, 5);
+
+-- Inserts para la tabla Encuesta_Satisfaccion
+INSERT INTO encuesta_satisfaccion (ID, fecha, preg_resp, comentarios, DNI_Cliente) VALUES
+(1, '2024-06-20', 5, 'Muy bueno', 1),
+(2, '2024-06-20', 4, 'Bueno', 2),
+(3, '2024-06-20', 3, 'Regular', 3),
+(4, '2024-06-21', 5, 'Excelente', 4),
+(5, '2024-06-21', 4, 'Muy bueno', 5),
+(6, '2024-06-21', 3, 'Satisfactorio', 6),
+(7, '2024-06-21', 2, 'Mejorable', 7),
+(8, '2024-06-21', 5, 'Perfecto', 8),
+(9, '2024-06-21', 4, 'Muy bueno', 9),
+(10, '2024-06-21', 5, 'Excelente', 10);
+
+-- Inserts adicionales para completar la base de datos
+
+-- Inserts para la tabla Reserva
+INSERT INTO Reserva (ID, fecha, n_personas, hora, DNI_Cliente) VALUES
+(1, '2024-06-20', 4, '19:00:00', 1),
+(2, '2024-06-20', 2, '20:00:00', 2),
+(3, '2024-06-20', 6, '21:00:00', 3),
+(4, '2024-06-21', 4, '19:00:00', 4),
+(5, '2024-06-21', 2, '20:00:00', 5),
+(6, '2024-06-21', 6, '21:00:00', 6),
+(7, '2024-06-22', 4, '19:00:00', 7),
+(8, '2024-06-22', 2, '20:00:00', 8),
+(9, '2024-06-22', 6, '21:00:00', 9),
+(10, '2024-06-23', 4, '19:00:00', 10);
+
+-- Inserts para la tabla Promocion
+INSERT INTO Promocion (ID, descripcion, descuento) VALUES
+(1, 'Descuento de verano', 10),
+(2, '2x1 en bebidas', 50),
+(3, 'Descuento de fidelidad', 15),
+(4, 'Descuento de cumpleaños', 20),
+(5, 'Descuento de primera visita', 5);
