@@ -1,15 +1,13 @@
-const fs = require('fs');
 const mysql = require('mysql');
 const express = require('express');
 
 const app = express();
 
-const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'))
 const connection = mysql.createConnection({
-    host: config.host,
-    user: config.user,
-    password: config.password,
-    database: config.database
+    host: '127.0.0.1',
+    user: 'KamVale',
+    password: 'Proyectos2024',
+    database: 'Restaurante'
 });
 
 connection.connect((err) => {
