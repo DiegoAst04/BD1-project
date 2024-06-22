@@ -78,13 +78,8 @@ app.post("/login", (req, res) => {
                 } else if (puesto === 'Mozo') {
                     return res.redirect("/pedidos0");
                 } else {
-                    if (results[0].contrasenia === password) {
-                        console.log("Cuenta verificada");
-                        res.redirect("/empleados");
-                    } else {
-                        console.log("Contraseña incorrecta");
-                        res.render("login", { error: "Contraseña incorrecta" });
-                    }
+                    console.log("Puesto desconocido");
+                    return res.status(500).send("Error en el servidor");
                 }
             });
         });
@@ -220,7 +215,7 @@ app.get("/empleados", (req, res) => {
 });
 
 app.get("/pedidos0", (req, res) => {
-    const query = "SELECT p.hora, p.fecha, e.nombre, e.apellido, p.ID_Mesa FROM Pedido p INNER JOIN Empleado e ON p.DNI_empleado = e.DNI;";
+    const query = "SELECT * FROM Pedido;";
     connection.query(query, (err, results) => {
         if (err) {
             console.error('Error: ', err.message);
