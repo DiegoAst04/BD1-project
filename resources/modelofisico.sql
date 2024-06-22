@@ -624,7 +624,6 @@ INSERT INTO Promocion (ID, descripcion, descuento) VALUES
 (5, 'Descuento de primera visita', 5);
 
 -- Inserts para la tabla Proveedor
--- Inserts para la tabla Proveedor
 INSERT INTO Proveedor (RUC, nombre, direccion) VALUES
 (1, 'Proveedor de Bebidas', 'Calle de las Bebidas 123'),
 (2, 'Proveedor de Carnes', 'Avenida de las Carnes 456'),
