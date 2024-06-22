@@ -624,25 +624,26 @@ INSERT INTO Promocion (ID, descripcion, descuento) VALUES
 (5, 'Descuento de primera visita', 5);
 
 -- Inserts para la tabla Proveedor
-INSERT INTO Proveedor (ID, nombre, direccion, telefono) VALUES
-(1, 'Proveedor de Bebidas', 'Calle de las Bebidas 123', '123456789'),
-(2, 'Proveedor de Carnes', 'Avenida de las Carnes 456', '987654321'),
-(3, 'Proveedor de Verduras', 'Calle de las Verduras 789', '111222333'),
-(4, 'Proveedor de Lácteos', 'Avenida de los Lácteos 101', '444555666'),
-(5, 'Proveedor de Postres', 'Boulevard de los Postres 202', '777888999');
+-- Inserts para la tabla Proveedor
+INSERT INTO Proveedor (RUC, nombre, direccion) VALUES
+(1, 'Proveedor de Bebidas', 'Calle de las Bebidas 123'),
+(2, 'Proveedor de Carnes', 'Avenida de las Carnes 456'),
+(3, 'Proveedor de Verduras', 'Calle de las Verduras 789'),
+(4, 'Proveedor de Lácteos', 'Avenida de los Lácteos 101'),
+(5, 'Proveedor de Postres', 'Boulevard de los Postres 202');
 
 -- Inserts para la tabla Ingrediente
-INSERT INTO Ingrediente (ID, nombre, ID_Proveedor) VALUES
-(1, 'Coca-Cola', 1),
-(2, 'Ron', 1),
-(3, 'Carne de Res', 2),
-(4, 'Queso', 4),
-(5, 'Pollo', 2),
-(6, 'Verduras Mixtas', 3),
-(7, 'Pepperoni', 2),
-(8, 'Vainilla', 5),
-(9, 'Tomate', 3),
-(10, 'Limón', 3);
+INSERT INTO Ingrediente (ID, nombre, Tipo, costo) VALUES
+(1, 'Coca-Cola', 'Bebida', 10),
+(2, 'Ron', 'Bebida', 20),
+(3, 'Carne de Res', 'Carne', 50),
+(4, 'Queso', 'Lácteo', 15),
+(5, 'Pollo', 'Carne', 40),
+(6, 'Verduras Mixtas', 'Verdura', 30),
+(7, 'Pepperoni', 'Carne', 25),
+(8, 'Vainilla', 'Postre', 10),
+(9, 'Tomate', 'Verdura', 5),
+(10, 'Limón', 'Fruta', 3);
 
 -- Inserts para la tabla Plato_Ingrediente
 INSERT INTO Plato_Ingrediente (ID_Plato, ID_Ingrediente) VALUES
