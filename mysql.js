@@ -214,8 +214,34 @@ app.get("/empleados", (req, res) => {
     });
 });
 
+// Ruta para eliminar empleado
+app.delete("/empleado/:dni", (req, res) => {
+    const { dni } = req.params;
+
+    const deletePhoneQuery = "DELETE FROM telefonos_empleado WHERE DNI_Empleado = ?";
+    connection.query(deletePhoneQuery, [dni], (err, result) => {
+        if (err) {
+            console.error('Error en la consulta SQL al eliminar el teléfono: ', err.message);
+            return res.status(500).send("Error en el servidor al eliminar el teléfono");
+        }
+
+        const deleteEmployeeQuery = "DELETE FROM empleado WHERE DNI = ?";
+        connection.query(deleteEmployeeQuery, [dni], (err, result) => {
+            if (err) {
+                console.error('Error en la consulta SQL al eliminar el empleado: ', err.message);
+                return res.status(500).send("Error en el servidor al eliminar el empleado");
+            }
+            if (result.affectedRows === 0) {
+                return res.status(404).send("Empleado no encontrado");
+            }
+            res.status(200).send("Empleado eliminado correctamente");
+        });
+    });
+});
+
+
 app.get("/pedidos0", (req, res) => {
-    const query = "SELECT * FROM Pedido;";
+    const query = "SELECT p.hora, p.fecha, e.nombre, e.apellido, p.ID_Mesa FROM Pedido p INNER JOIN Empleado e ON p.DNI_Empleado = e.DNI";
     connection.query(query, (err, results) => {
         if (err) {
             console.error('Error: ', err.message);
@@ -224,6 +250,10 @@ app.get("/pedidos0", (req, res) => {
         }
         res.render("pedidos0", { pedidos: results });
     });
+});
+
+app.get("/pedidos1", (req, res) => {
+        res.render("pedidos1");
 });
 
 // Iniciar el servidor en el puerto 3000

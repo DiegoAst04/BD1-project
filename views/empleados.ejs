@@ -59,10 +59,12 @@
           Configuración
         </li>
         <li>
-          <div class="icon">
-            <i class="fa-solid fa-right-from-bracket"></i>
-          </div>
-          Cerrar Sesión
+          <a href="/">
+            <div class="icon">
+              <i class="fa-solid fa-right-from-bracket"></i>
+            </div>
+            Cerrar Sesión
+          </a>
         </li>
       </ul>
     </div>
@@ -82,19 +84,45 @@
               </tr>
           </thead>
           <tbody>
-              <% empleados.forEach(empleado => { %>
-                  <tr>
-                      <td><%= empleado.DNI %></td>
-                      <td><%= empleado.nombre %></td>
-                      <td><%= empleado.apellido %></td>
-                      <td><%= empleado.puesto %></td>
-                      <td><%= empleado.salario %></td>
-                      <td><%= empleado.ID_Caja %></td>
-                      <td><%= empleado.turno %></td>
-                      <td><button class="btn-delete"><i class="fas fa-trash-alt"></i></button></td>
-                  </tr>
-              <% }); %>
-          </tbody>
+            <% empleados.forEach(empleado => { %>
+                <tr id="empleado-<%= empleado.DNI %>">
+                    <td><%= empleado.DNI %></td>
+                    <td><%= empleado.nombre %></td>
+                    <td><%= empleado.apellido %></td>
+                    <td><%= empleado.puesto %></td>
+                    <td><%= empleado.salario %></td>
+                    <td><%= empleado.ID_Caja %></td>
+                    <td><%= empleado.turno %></td>
+                    <td>
+                        <button class="btn-delete" onclick="deleteEmpleado('<%= empleado.DNI %>')">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+    <script>
+        function deleteEmpleado(dni) {
+            if (confirm("¿Estás seguro de que deseas eliminar a este empleado?")) {
+                fetch(`/empleado/${dni}`, {
+                    method: 'DELETE',
+                })
+                .then(response => {
+                    if (response.ok) {
+                        document.getElementById(`empleado-${dni}`).remove();
+                    } else {
+                        alert("Error al eliminar el empleado");
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert("Error al eliminar el empleado");
+                });
+            }
+        }
+    </script>
       </table>
 </script>
 </html>
