@@ -127,13 +127,15 @@ canvas {
   flex-wrap: wrap;
   gap: 50px;
   justify-content: center;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
 }
 
 .table-container .table {
   background-color: #C4C4C4;
   border-radius: 10px;
-  padding: 110px;
-  width: calc(33.33% - 50px); 
+  padding: 50px;
+  width: calc(33.33% - 50px);
   text-align: center;
   cursor: pointer;
   flex-grow: 1;
@@ -141,6 +143,14 @@ canvas {
   color: black;
   font-size: 32px;
   font-weight: bold;
+  position: relative;
+}
+
+.table .subtitle {
+  font-size: 20px;
+  color: black;
+  margin-top: 10px;
+  text-align: left;
 }
 
 @media (max-width: 768px) {
