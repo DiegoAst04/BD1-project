@@ -78,7 +78,7 @@ li:hover {
 }
 
 h2 {
-  margin: 15px;
+  margin: 20px 0;
   font-size: 30px;
 }
 
@@ -120,6 +120,18 @@ canvas {
 }
 .btn-delete i {
   font-weight: 100;
+}
+
+.new > a {
+  margin: 28px 0;
+  color: white;
+  text-decoration: none;
+  display: inline-flex;
+    align-items: center;
+    gap: 12px;
+}
+a > h2 {
+  margin: 0;
 }
 
 .table-container {
