@@ -121,3 +121,35 @@ canvas {
 .btn-delete i {
   font-weight: 100;
 }
+
+.table-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+  justify-content: center;
+}
+
+.table-container .table {
+  background-color: #C4C4C4;
+  border-radius: 10px;
+  padding: 110px;
+  width: calc(33.33% - 50px); 
+  text-align: center;
+  cursor: pointer;
+  flex-grow: 1;
+  box-sizing: border-box;
+  color: black;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+@media (max-width: 768px) {
+  .table-container .table {
+    width: calc(50% - 20px); 
+  }
+}
+@media (max-width: 480px) {
+  .table-container .table {
+    width: calc(100% - 20px); 
+  }
+}
