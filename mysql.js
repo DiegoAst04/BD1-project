@@ -60,7 +60,7 @@ app.post("/login", (req, res) => {
                         res.redirect("/empleados");
                     } else {
                         console.log("Contraseña incorrecta");
-                        res.status(400).send("Contraseña incorrecta");
+                        res.render("login", { error: "Contraseña incorrecta" });
                     }
                 }
             });
