@@ -4,7 +4,7 @@ const express = require('express');
 
 const app = express();
 
-const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'))
+const config = JSON.parse(fs.readFileSync('./config.json', 'utf8'));
 const connection = mysql.createConnection({
     host: config.host,
     user: config.user,
@@ -26,7 +26,6 @@ app.use(express.static('views'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// Ruta para el login
 app.get("/", (req, res) => {
     res.render("login");
 });
@@ -72,7 +71,6 @@ app.get("/register", (req, res) => {
     res.render("register");
 });
 
-// Validar datos de registro
 app.post("/register", (req, res) => {
     const infoRegister = req.body;
 
@@ -119,52 +117,7 @@ app.post("/register", (req, res) => {
 
             let ID_Caja = null;
 
-            if (puesto === 'Cajero') {
-                const Query_ID_Caja = "SELECT c.ID FROM Caja c LEFT JOIN Empleado e ON c.ID = e.ID_Caja GROUP BY c.ID ORDER BY COUNT(e.ID_Caja) ASC LIMIT 1;";
-                connection.query(Query_ID_Caja, (err, result) => {
-                    if (err) {
-                        console.error('Error: ', err.message);
-                        res.status(500).send("Error en el servidor");
-                        return;
-                    }
-                    if (result.length === 0) {
-                        console.log("No existe una caja");
-                        res.status(400).send("No existe una caja");
-                        return;
-                    }
-                    ID_Caja = result[0].ID;
-
-                    // Proceed with the Horario query after ID_Caja is obtained
-                    let ID_Horario = null;
-                    const Query_ID_Horario = "SELECT ID FROM Horarios WHERE turno = ?";
-                    connection.query(Query_ID_Horario, [horario], (err, result) => {
-                        if (err) {
-                            console.error('Error: ', err.message);
-                            res.status(500).send("Error en el servidor");
-                            return;
-                        }
-                        if (result.length === 0) {
-                            console.log("No existe este horario");
-                            res.status(400).send("No existe este horario");
-                            return;
-                        }
-                        ID_Horario = result[0].ID;
-
-                        // Proceed with the registration after both ID_Caja and ID_Horario are obtained
-                        const registrar = "INSERT INTO empleado (DNI, nombre, apellido, puesto, contrasenia, salario, ID_Caja, ID_Horarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-                        const values = [dni, nombre, apellido, puesto, contrasenia, salario, ID_Caja, ID_Horario];
-                        connection.query(registrar, values, (err) => {
-                            if (err) {
-                                console.error('Error: ', err.message);
-                                res.status(500).send("Error al registrar el usuario");
-                                return;
-                            }
-                            res.redirect("/empleados");
-                        });
-                    });
-                });
-            } else {
-                // If not 'Cajero', only get the ID_Horario and proceed with registration
+            const insertEmployee = () => {
                 let ID_Horario = null;
                 const Query_ID_Horario = "SELECT ID FROM Horarios WHERE turno = ?";
                 connection.query(Query_ID_Horario, [horario], (err, result) => {
@@ -180,7 +133,6 @@ app.post("/register", (req, res) => {
                     }
                     ID_Horario = result[0].ID;
 
-                    // Proceed with the registration after ID_Horario is obtained
                     const registrar = "INSERT INTO empleado (DNI, nombre, apellido, puesto, contrasenia, salario, ID_Caja, ID_Horarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                     const values = [dni, nombre, apellido, puesto, contrasenia, salario, ID_Caja, ID_Horario];
                     connection.query(registrar, values, (err) => {
@@ -189,9 +141,37 @@ app.post("/register", (req, res) => {
                             res.status(500).send("Error al registrar el usuario");
                             return;
                         }
-                        res.redirect("/empleados");
+                        const add_phone = "INSERT INTO telefonos_empleado (telefono_empleado, DNI_Empleado) VALUES (?,?)";
+                        connection.query(add_phone, [telefono, dni], (err) => {
+                            if (err) {
+                                console.error('Error: ', err.message);
+                                res.status(500).send("Error al registrar el teléfono");
+                                return;
+                            }
+                            res.redirect("/empleados");
+                        });
                     });
                 });
+            };
+
+            if (puesto === 'Cajero') {
+                const Query_ID_Caja = "SELECT c.ID FROM Caja c LEFT JOIN Empleado e ON c.ID = e.ID_Caja GROUP BY c.ID ORDER BY COUNT(e.ID_Caja) ASC LIMIT 1;";
+                connection.query(Query_ID_Caja, (err, result) => {
+                    if (err) {
+                        console.error('Error: ', err.message);
+                        res.status(500).send("Error en el servidor");
+                        return;
+                    }
+                    if (result.length === 0) {
+                        console.log("No existe una caja");
+                        res.status(400).send("No existe una caja");
+                        return;
+                    }
+                    ID_Caja = result[0].ID;
+                    insertEmployee();
+                });
+            } else {
+                insertEmployee();
             }
         }
     });
