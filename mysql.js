@@ -78,8 +78,13 @@ app.post("/login", (req, res) => {
                 } else if (puesto === 'Mozo') {
                     return res.redirect("/pedidos0");
                 } else {
-                    console.log("Puesto desconocido");
-                    return res.status(500).send("Error en el servidor");
+                    if (results[0].contrasenia === password) {
+                        console.log("Cuenta verificada");
+                        res.redirect("/empleados");
+                    } else {
+                        console.log("Contraseña incorrecta");
+                        res.render("login", { error: "Contraseña incorrecta" });
+                    }
                 }
             });
         });

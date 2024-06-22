@@ -27,6 +27,10 @@
       <div class="login">
         <form action="/login" method="post">
           <h1>Iniciar sesión</h1>
+          <% if (typeof error !== 'undefined' && error) { %>
+            <p style="color: red;"><%= error %></p>
+          <% } %>
+
           <div class="label-input">
             <label for="id">ID de usuario:</label>
             <input type="text" id="id" name="id" placeholder="70615794" required>
@@ -43,6 +47,7 @@
           </div>
           <button type="submit">Entrar</button>
           <p>¿No tienes una cuenta? <a href="/register">Regístrate</a></p>
+          <div id="mensaje-error" style="color: red;"></div>
         </form>
       </div>
     </div>
