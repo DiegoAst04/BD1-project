@@ -20,7 +20,6 @@ CREATE TABLE `Empleado` (
   `contrasenia` VARCHAR(255) DEFAULT NULL,
   `salario` INTEGER DEFAULT NULL,
   `ID_Caja` INTEGER DEFAULT NULL,
-  `new field` INTEGER DEFAULT NULL,
   `ID_Horarios` INTEGER DEFAULT NULL,
   PRIMARY KEY (`DNI`)
 );
