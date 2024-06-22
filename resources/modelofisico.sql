@@ -533,12 +533,12 @@ INSERT INTO Mesa (ID, n_mesa, capacidad, ubicacion, DNI_Empleado, ID_Reserva) VA
 -- Inserts para la tabla Plato
 INSERT INTO Plato (ID, nombre, descripcion, tipo, precio) VALUES
 (1, 'Coca-Cola', 'Bebida refrescante', 'Bebida', 10),
-(2, 'Mojito', 'Coctel de ron', 'Coctel', 15),
-(3, 'Hamburguesa', 'Hamburguesa con queso', 'Plato Principal', 50),
-(4, 'Ensalada César', 'Ensalada con pollo', 'Entrante', 30),
+(2, 'Mojito', 'Coctel de ron', 'Bebida', 15),
+(3, 'Hamburguesa', 'Hamburguesa con queso', 'Plato', 50),
+(4, 'Ensalada César', 'Ensalada con pollo', 'Plato', 30),
 (5, 'Helado', 'Helado de vainilla', 'Postre', 20),
-(6, 'Pizza', 'Pizza de pepperoni', 'Plato Principal', 40),
-(7, 'Sopa de Tomate', 'Sopa caliente', 'Entrante', 15),
+(6, 'Pizza', 'Pizza de pepperoni', 'Plato', 40),
+(7, 'Sopa de Tomate', 'Sopa caliente', 'Plato', 15),
 (8, 'Tiramisu', 'Postre italiano', 'Postre', 25),
 (9, 'Agua Mineral', 'Bebida sin gas', 'Bebida', 5),
 (10, 'Limonada', 'Bebida refrescante', 'Bebida', 8);

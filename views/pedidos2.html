@@ -69,36 +69,47 @@
       </ul>
     </div>
     <div class="content">
-      <div class="new_ped">
-        <a href="/pedidos1">
-          <div class="h2icon">
-            <i class="fa-solid fa-circle-plus fa-2x"></i>
-          </div>
-          <h2>Nuevo Pedido</h2>
-        </a>
+      <div class="ped_opciones">
+        <div class="ped_optn">
+          <i class="fa-solid fa-bowl-food"></i>
+          Platos
+        </div>
+        <div class="ped_optn">
+          <i class="fa-solid fa-mug-saucer"></i>
+          Bebidas
+        </div>
+        <div class="ped_optn">
+          <i class="fa-solid fa-ice-cream"></i>
+          Postres
+        </div>
+        <div class="ped_optn">
+          <i class="fa-solid fa-check"></i>
+          Terminar pedido
+        </div>
       </div>
-      <table class="table" id="pedidos">
-          <thead>
-              <tr>
-                  <th>Fecha</th>
-                  <th>Hora</th>
-                  <th>Empleado</th>
-                  <th>Apellido</th>
-                  <th># Mesa</th>
-              </tr>
-          </thead>
-          <tbody>
-            <% pedidos.forEach(pedido => { %>
-                <tr>
-                    <td><%= pedido.hora %></td>
-                    <td><%= pedido.fecha %></td>
-                    <td><%= pedido.nombre %></td>
-                    <td><%= pedido.apellido %></td>
-                    <td><%= pedido.ID_Mesa %></td>
-                </tr>
-            <% }); %>
-        </tbody>
-      </table>
-    </div>
+    
+    <table class="table" id="orden">
+      <thead>
+          <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Descripcion</th>
+              <th>Tipo</th>
+              <th>Precio</th>
+          </tr>
+      </thead>
+      <tbody>
+        <% pedidos.forEach(plato => { %>
+            <tr>
+                <td><%= plato.ID %></td>
+                <td><%= plato.nombre %></td>
+                <td><%= plato.escripcion %></td>
+                <td><%= plato.tipo %></td>
+                <td><%= plato.precio %></td>
+            </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
 </script>
 </html>
