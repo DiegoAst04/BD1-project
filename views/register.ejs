@@ -18,7 +18,7 @@
 <body>
   <div id="bg" class="reg">
     <div class="register">
-      <form action="/register" method="post">
+      <form id="registerForm">
         <h1>Registrarse</h1>
         <div class="nombres">
           <div class="label-input">
@@ -30,63 +30,99 @@
           </div>
           <div class="label-input">
             <label for="apellido">Apellidos:</label>
-            <input type="text" id="apellido" name="apellido" placeholder="López Obrador" required>
+            <input type="text" id="apellido" name="apellido" placeholder="Arias" required>
             <div class="icon">
               <i class="fa-regular fa-user"></i>
             </div>
           </div>
         </div>
         <div class="label-input">
-          <label for="telefono">Teléfono:</label>
-          <input type="tel" id="telefono" name="telefono" placeholder="974380072" required>
+          <label for="dni">DNI:</label>
+          <input type="text" id="dni" name="dni" placeholder="78631254" required>
           <div class="icon">
-            <i class="fa-solid fa-phone"></i>
+            <i class="fa-regular fa-id-card"></i>
           </div>
         </div>
         <div class="label-input">
-          <label for="dni">DNI:</label>
-          <input type="number" id="dni" name="dni" placeholder="70615794" required>
+          <label for="telefono">Celular:</label>
+          <input type="text" id="telefono" name="telefono" placeholder="987654321" required>
           <div class="icon">
-            <i class="fa-regular fa-id-card"></i>
+            <i class="fa-solid fa-mobile-screen-button"></i>
           </div>
         </div>
         <div class="label-input">
           <label for="puesto">Puesto:</label>
-          <select name="puesto" id="puesto">
+          <select id="puesto" name="puesto" required>
+            <option value="">Seleccione un puesto</option>
             <option value="Cajero">Cajero</option>
-            <option value="Mozo" selected>Mozo</option>
+            <option value="Mozo">Mozo</option>
             <option value="Cocinero">Cocinero</option>
             <option value="Mantenimiento">Mantenimiento</option>
           </select>
-          <div class="icon">
-            <i class="fa-regular fa-id-card"></i>
-          </div>
         </div>
         <div class="label-input">
-          <label for="horario">Turno</label>
-          <input type="text" id="horario" name="horario" placeholder="Mañana" required>
-          <div class="icon">
-            <i class="fa-regular fa-envelope"></i>
-          </div>
+          <label for="horario">Turno:</label>
+          <select id="horario" name="horario" required>
+            <option value="">Seleccione un turno</option>
+            <option value="mañana">Mañana</option>
+            <option value="tarde">Tarde</option>
+            <option value="noche">Noche</option>
+          </select>
         </div>
         <div class="label-input">
           <label for="contrasenia">Contraseña:</label>
-          <input type="password" id="contrasenia" name="contrasenia" placeholder="SuperEmpleado_123" required>
+          <input type="password" id="contrasenia" name="contrasenia" required>
           <div class="icon">
             <i class="fa-solid fa-lock"></i>
           </div>
         </div>
         <div class="label-input">
           <label for="confirmar_contrasenia">Confirmar contraseña:</label>
-          <input type="password" id="confirmar_contrasenia" name="confirmar_contrasenia" placeholder="SuperEmpleado_123" required>
+          <input type="password" id="confirmar_contrasenia" name="confirmar_contrasenia" required>
           <div class="icon">
             <i class="fa-solid fa-lock"></i>
           </div>
         </div>
-        <button type="submit">Crear usuario</button>
+        <input type="submit" value="Registrarse">
       </form>
     </div>
   </div>
-</body>
 
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      
+      const formData = new FormData(event.target);
+      const data = Object.fromEntries(formData.entries());
+
+      fetch("/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      })
+      .then(response => response.json())
+      .then(result => {
+        Swal.fire({
+          icon: result.type,
+          title: result.type === 'success' ? '¡Éxito!' : '¡Error!',
+          text: result.message
+        }).then(() => {
+          if (result.type === 'success' && result.redirect) {
+            window.location.href = result.redirect;
+          }
+        });
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        Swal.fire({
+          icon: 'error',
+          title: '¡Error!',
+          text: 'Error en el servidor'
+        });
+      });
+    });
+  </script>
+</body>
 </html>

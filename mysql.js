@@ -26,6 +26,16 @@ app.use(express.static('views'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+const session = require('express-session');
+
+
+app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}));
+
 app.get("/", (req, res) => {
     res.render("login");
 });
@@ -37,24 +47,24 @@ app.post("/login", (req, res) => {
     connection.query(find_user, [id], (err, rows) => {
         if (err) {
             console.error('Error en la consulta SQL: ', err.message);
-            return res.status(500).send("Error en el servidor");
+            return res.status(500).json({ message: "Error en el servidor", type: "error" });
         }
 
         if (rows.length === 0) {
             console.log("No existe cuenta");
-            return res.status(400).send("Aún no tienes una cuenta. Regístrate primero.");
+            return res.status(400).json({ message: "Aún no tienes una cuenta. Regístrate primero.", type: "error" });
         }
 
         const verificar_contrasenia = "SELECT contrasenia FROM empleado WHERE DNI = ?";
         connection.query(verificar_contrasenia, [id], (err, results) => {
             if (err) {
                 console.error('Error en la consulta SQL: ', err.message);
-                return res.status(500).send("Error en el servidor");
+                return res.status(500).json({ message: "Error en el servidor", type: "error" });
             }
 
             if (results.length === 0 || results[0].contrasenia !== password) {
                 console.log("Contraseña incorrecta");
-                return res.status(400).send("Contraseña incorrecta");
+                return res.status(400).json({ message: "Contraseña incorrecta", type: "error" });
             }
 
             console.log("Cuenta verificada");
@@ -63,29 +73,30 @@ app.post("/login", (req, res) => {
             connection.query(view_page, [id], (err, puesto_) => {
                 if (err) {
                     console.error('Error en la consulta SQL: ', err.message);
-                    return res.status(500).send("Error en el servidor");
+                    return res.status(500).json({ message: "Error en el servidor", type: "error" });
                 }
 
                 if (puesto_.length === 0) {
                     console.log("Puesto no encontrado");
-                    return res.status(500).send("Error en el servidor");
+                    return res.status(500).json({ message: "Error en el servidor", type: "error" });
                 }
 
                 const puesto = puesto_[0].puesto;
 
+                req.session.userId = id;
+
                 if (puesto === 'Cajero') {
-                    return res.redirect("/empleados");
+                    return res.status(200).json({ message: "Login exitoso", type: "success", redirect: "/empleados" });
                 } else if (puesto === 'Mozo') {
-                    return res.redirect("/pedidos0");
+                    return res.status(200).json({ message: "Login exitoso", type: "success", redirect: "/pedidos0_mozo" });
                 } else {
                     console.log("Puesto desconocido");
-                    return res.status(500).send("Error en el servidor");
+                    return res.status(500).json({ message: "Error en el servidor", type: "error" });
                 }
             });
         });
     });
 });
-
 
 app.get("/register", (req, res) => {
     res.render("register");
@@ -100,20 +111,18 @@ app.post("/register", (req, res) => {
 
     if (contrasenia !== confirmar_contrasenia) {
         console.log("Las contraseñas no coinciden");
-        res.status(400).send("Las contraseñas no coinciden");
-        return;
+        return res.status(400).send({ message: "Las contraseñas no coinciden", type: "error" });
     }
 
     const find = "SELECT * FROM empleado WHERE dni = ?";
     connection.query(find, [dni], (err, rows) => {
         if (err) {
             console.error('Error: ', err.message);
-            res.status(500).send("Error en el servidor");
-            return;
+            return res.status(500).send({ message: "Error en el servidor", type: "error" });
         }
         if (rows.length > 0) {
             console.log("Ya tiene cuenta");
-            res.status(400).send("El usuario ya tiene una cuenta");
+            return res.status(400).send({ message: "El usuario ya tiene una cuenta", type: "error" });
         } else {
             let salario;
 
@@ -143,13 +152,11 @@ app.post("/register", (req, res) => {
                 connection.query(Query_ID_Horario, [horario], (err, result) => {
                     if (err) {
                         console.error('Error: ', err.message);
-                        res.status(500).send("Error en el servidor");
-                        return;
+                        return res.status(500).send({ message: "Error en el servidor", type: "error" });
                     }
                     if (result.length === 0) {
                         console.log("No existe este horario");
-                        res.status(400).send("No existe este horario");
-                        return;
+                        return res.status(400).send({ message: "No existe este horario", type: "error" });
                     }
                     ID_Horario = result[0].ID;
 
@@ -158,21 +165,18 @@ app.post("/register", (req, res) => {
                     connection.query(registrar, values, (err) => {
                         if (err) {
                             console.error('Error: ', err.message);
-                            res.status(500).send("Error al registrar el usuario");
-                            return;
+                            return res.status(500).send({ message: "Error al registrar el usuario", type: "error" });
                         }
                         const add_phone = "INSERT INTO telefonos_empleado (telefono_empleado, DNI_Empleado) VALUES (?,?)";
                         connection.query(add_phone, [telefono, dni], (err) => {
                             if (err) {
                                 console.error('Error: ', err.message);
-                                res.status(500).send("Error al registrar el teléfono");
-                                return;
+                                return res.status(500).send({ message: "Error al registrar el teléfono", type: "error" });
                             }
-                            if (puesto==='Cajero'){
-                                res.redirect("/empleados");
-                            }
-                            else if(puesto==='Mozo'){
-                                res.redirect("/pedidos0");
+                            if (puesto === 'Cajero') {
+                                return res.status(200).send({ message: "Usuario registrado con éxito", type: "success", redirect: "/empleados" });
+                            } else if (puesto === 'Mozo') {
+                                return res.status(200).send({ message: "Usuario registrado con éxito", type: "success", redirect: "/pedidos0_mozo" });
                             };
                         });
                     });
@@ -184,13 +188,11 @@ app.post("/register", (req, res) => {
                 connection.query(Query_ID_Caja, (err, result) => {
                     if (err) {
                         console.error('Error: ', err.message);
-                        res.status(500).send("Error en el servidor");
-                        return;
+                        return res.status(500).send({ message: "Error en el servidor", type: "error" });
                     }
                     if (result.length === 0) {
                         console.log("No existe una caja");
-                        res.status(400).send("No existe una caja");
-                        return;
+                        return res.status(400).send({ message: "No existe una caja", type: "error" });
                     }
                     ID_Caja = result[0].ID;
                     insertEmployee();
@@ -240,15 +242,29 @@ app.delete("/empleado/:dni", (req, res) => {
 });
 
 
-app.get("/pedidos0", (req, res) => {
-    const query = "SELECT p.hora, p.fecha, e.nombre, e.apellido, p.ID_Mesa FROM Pedido p INNER JOIN Empleado e ON p.DNI_Empleado = e.DNI";
-    connection.query(query, (err, results) => {
+app.get("/pedidos0_mozo", (req, res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "No autorizado", type: "error" });
+    }
+
+    const query = "SELECT p.hora, p.fecha, p.ID_Mesa FROM Pedido p WHERE p.DNI_Empleado = ?";
+    connection.query(query, [req.session.userId], (err, results) => {
         if (err) {
             console.error('Error: ', err.message);
             res.status(500).send("Error en el servidor");
             return;
         }
-        res.render("pedidos0", { pedidos: results });
+        res.render("pedidos0_mozo", { pedidos: results });
+    });
+});
+
+app.get("/logout", (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error('Error al cerrar sesión: ', err);
+            return res.status(500).send("Error en el servidor");
+        }
+        res.redirect("/");
     });
 });
 
