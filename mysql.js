@@ -36,6 +36,12 @@ app.use(session({
     cookie: { secure: false }
 }));
 
+const verificar_Sesion = (req, res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ message: "No autorizado", type: "error" });
+    }
+};
+
 app.get("/", (req, res) => {
     res.render("login");
 });
@@ -176,6 +182,7 @@ app.post("/register", (req, res) => {
                             if (puesto === 'Cajero') {
                                 return res.status(200).send({ message: "Usuario registrado con éxito", type: "success", redirect: "/empleados" });
                             } else if (puesto === 'Mozo') {
+                                const crear_Mesa
                                 return res.status(200).send({ message: "Usuario registrado con éxito", type: "success", redirect: "/pedidos0_mozo" });
                             };
                         });
@@ -205,6 +212,9 @@ app.post("/register", (req, res) => {
 });
 
 app.get("/empleados", (req, res) => {
+
+    verificar_Sesion(req, res);
+
     const query = "SELECT e.DNI, e.nombre, e.apellido, e.puesto, e.salario, e.ID_Caja, h.turno FROM Empleado e INNER JOIN Horarios h ON e.ID_Horarios = h.ID";
     connection.query(query, (err, results) => {
         if (err) {
@@ -241,11 +251,22 @@ app.delete("/empleado/:dni", (req, res) => {
     });
 });
 
+app.get("/pedidos0", (req, res) => {
+    verificar_Sesion(req, res);
+
+    const query = "SELECT p.hora, p.fecha, e.nombre, e.apellido, p.ID_Mesa FROM Pedido p INNER JOIN Empleado e ON p.DNI_Empleado = e.DNI";
+    connection.query(query, (err, results) => {
+        if (err) {
+            console.error('Error: ', err.message);
+            res.status(500).send("Error en el servidor");
+            return;
+        }
+        res.render("pedidos0", { pedidos: results });
+    });
+});
 
 app.get("/pedidos0_mozo", (req, res) => {
-    if (!req.session.userId) {
-        return res.status(401).json({ message: "No autorizado", type: "error" });
-    }
+    verificar_Sesion(req, res);
 
     const query = "SELECT p.hora, p.fecha, p.ID_Mesa FROM Pedido p WHERE p.DNI_Empleado = ?";
     connection.query(query, [req.session.userId], (err, results) => {
@@ -269,7 +290,9 @@ app.get("/logout", (req, res) => {
 });
 
 app.get("/pedidos1", (req, res) => {
-        res.render("pedidos1");
+    verificar_Sesion(req, res);
+
+    res.render("pedidos1");
 });
 
 // Iniciar el servidor en el puerto 3000
