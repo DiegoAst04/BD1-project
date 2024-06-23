@@ -4,6 +4,10 @@ $ npm update mysql
 ```
 
 ```sh
+$ npm install express-session
+```
+
+```sh
 $ node ./mysql.js
 ```
 
