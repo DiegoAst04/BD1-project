@@ -182,7 +182,6 @@ app.post("/register", (req, res) => {
                             if (puesto === 'Cajero') {
                                 return res.status(200).send({ message: "Usuario registrado con éxito", type: "success", redirect: "/empleados" });
                             } else if (puesto === 'Mozo') {
-                                const crear_Mesa
                                 return res.status(200).send({ message: "Usuario registrado con éxito", type: "success", redirect: "/pedidos0_mozo" });
                             };
                         });
