@@ -678,3 +678,21 @@ INSERT INTO pedido_plato (ID_Pedido, ID_Plato) VALUES
 (2, 4),
 (3, 1),
 (3, 3);
+
+-- Nueva linea para eliminar n_mesa de mesa
+
+ALTER TABLE `mesa` DROP `n_mesa`;
+
+ALTER TABLE `pedido_plato` ADD `cantidad` INT;
+
+UPDATE pedido_plato SET cantidad = 2 WHERE ID_Pedido = 1 AND ID_Plato = 1;
+
+UPDATE pedido_plato SET cantidad = 1 WHERE ID_Pedido = 1 AND ID_Plato = 2;
+
+UPDATE pedido_plato SET cantidad = 3 WHERE ID_Pedido = 2 AND ID_Plato = 3;
+
+UPDATE pedido_plato SET cantidad = 1 WHERE ID_Pedido = 2 AND ID_Plato = 4;
+
+UPDATE pedido_plato SET cantidad = 1 WHERE ID_Pedido = 3 AND ID_Plato = 1;
+
+UPDATE pedido_plato SET cantidad = 2 WHERE ID_Pedido = 3 AND ID_Plato = 3;

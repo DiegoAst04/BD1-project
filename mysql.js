@@ -290,29 +290,55 @@ app.get("/pedidos1", verificar_Sesion, (req, res) => {
     });
 });
 
-app.get("/pedidos1_caja", verificar_Sesion, (req, res) => {
-
-    const query = 'SELECT DISTINCT m.ID, m.capacidad, m.ubicacion, e.nombre AS mozoNombre FROM Mesa m INNER JOIN Empleado e ON m.DNI_empleado = e.DNI';
-    connection.query(query, (err, results) => {
-        if (err) {
-            console.error('Error en la consulta SQL: ', err.message);
-            return res.status(500).send("Error en el servidor");
-        }
-        res.render("pedidos1", { mesas: results });
-    });
-});
-
 app.get("/pedidos2", verificar_Sesion, (req, res) => {
-    const query = "SELECT * FROM plato";  
+    const query = "SELECT * FROM Plato";  
     connection.query(query, (err, results) => {
         if (err) {
-            console.error('Error: ', err.message);
+            console.error('Error: ', err.message);  
             res.status(500).send("Error en el servidor");
             return;
         }
         res.render("pedidos2", { pedidos: results });
     });
 });
+
+app.get("/pedidos1_caja", verificar_Sesion, (req, res) => {
+    const query_mesas = "SELECT DISTINCT m.ID, m.capacidad, m.ubicacion, e.nombre AS mozoNombre FROM Mesa m INNER JOIN Empleado e ON m.DNI_empleado = e.DNI";
+
+    connection.query(query_mesas, (err, mesas) => {
+        if (err) {
+            console.error('Error en la consulta SQL: ', err.message);
+            return res.status(500).json({ message: "Error en el servidor", type: "error" });
+        }
+
+        res.render("pedidos1_caja", { mesas: mesas });
+    });
+});
+
+app.get("/pedidos2_caja/:mesaId", verificar_Sesion, (req, res) => {
+    const mesaId = req.params.mesaId;
+
+    // Consulta SQL para obtener los detalles del pedido por mesa
+    const pedidos_query = `
+        SELECT pl.nombre, pl.precio, pd_pl.cantidad, pd_pl.cantidad * pl.precio AS precio_total
+        FROM plato pl
+        INNER JOIN pedido_plato pd_pl ON pl.ID = pd_pl.ID_Plato
+        INNER JOIN Pedido pd ON pd_pl.ID_Pedido = pd.ID
+        WHERE pd.ID_Mesa = ?
+    `;
+
+    connection.query(pedidos_query, [mesaId], (err, pedidos) => {
+        if (err) {
+            console.error('Error en la consulta SQL: ', err.message);
+            return res.status(500).json({ message: "Error en el servidor", type: "error" });
+        }
+
+        const totalPedido = pedidos.reduce((total, pedido) => total + pedido.precio_total, 0);
+
+        res.render("pedidos2_caja", { pedidos: pedidos, totalPedido: totalPedido });
+    });
+});
+
 
 app.get("/logout", (req, res) => {
     req.session.destroy((err) => {
