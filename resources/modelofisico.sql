@@ -662,7 +662,7 @@ INSERT INTO Plato_Ingrediente (ID_Plato, ID_Ingrediente) VALUES
 
 
 -- Inserting data into proveedor_ingrediente table
-INSERT INTO proveedor_ingrediente (ID_Proveedor, ID_Ingrediente) VALUES
+INSERT INTO proveedor_ingrediente (RUC_Proveedor, ID_Ingrediente) VALUES
 (1, 1),
 (1, 2),
 (2, 3),
