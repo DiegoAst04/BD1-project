@@ -36,10 +36,11 @@ app.use(session({
     cookie: { secure: false }
 }));
 
-const verificar_Sesion = (req, res) => {
+const verificar_Sesion = (req, res, next) => {
     if (!req.session.userId) {
         return res.status(401).json({ message: "No autorizado", type: "error" });
     }
+    next();
 };
 
 app.get("/", (req, res) => {
@@ -89,6 +90,7 @@ app.post("/login", (req, res) => {
 
                 const puesto = puesto_[0].puesto;
 
+                // Establecer la sesión del usuario después de un inicio de sesión exitoso
                 req.session.userId = id;
 
                 if (puesto === 'Cajero') {
@@ -179,11 +181,15 @@ app.post("/register", (req, res) => {
                                 console.error('Error: ', err.message);
                                 return res.status(500).send({ message: "Error al registrar el teléfono", type: "error" });
                             }
+
+                            // Establecer la sesión del usuario después de un registro exitoso
+                            req.session.userId = dni;
+
                             if (puesto === 'Cajero') {
                                 return res.status(200).send({ message: "Usuario registrado con éxito", type: "success", redirect: "/empleados" });
                             } else if (puesto === 'Mozo') {
                                 return res.status(200).send({ message: "Usuario registrado con éxito", type: "success", redirect: "/pedidos0_mozo" });
-                            };
+                            }
                         });
                     });
                 });
@@ -210,10 +216,7 @@ app.post("/register", (req, res) => {
     });
 });
 
-app.get("/empleados", (req, res) => {
-
-    verificar_Sesion(req, res);
-
+app.get("/empleados", verificar_Sesion, (req, res) => {
     const query = "SELECT e.DNI, e.nombre, e.apellido, e.puesto, e.salario, e.ID_Caja, h.turno FROM Empleado e INNER JOIN Horarios h ON e.ID_Horarios = h.ID";
     connection.query(query, (err, results) => {
         if (err) {
@@ -250,9 +253,7 @@ app.delete("/empleado/:dni", (req, res) => {
     });
 });
 
-app.get("/pedidos0", (req, res) => {
-    verificar_Sesion(req, res);
-
+app.get("/pedidos0", verificar_Sesion, (req, res) => {
     const query = "SELECT p.hora, p.fecha, e.nombre, e.apellido, p.ID_Mesa FROM Pedido p INNER JOIN Empleado e ON p.DNI_Empleado = e.DNI";
     connection.query(query, (err, results) => {
         if (err) {
@@ -264,9 +265,7 @@ app.get("/pedidos0", (req, res) => {
     });
 });
 
-app.get("/pedidos0_mozo", (req, res) => {
-    verificar_Sesion(req, res);
-
+app.get("/pedidos0_mozo", verificar_Sesion, (req, res) => {
     const query = "SELECT p.hora, p.fecha, p.ID_Mesa FROM Pedido p WHERE p.DNI_Empleado = ?";
     connection.query(query, [req.session.userId], (err, results) => {
         if (err) {
@@ -288,9 +287,7 @@ app.get("/logout", (req, res) => {
     });
 });
 
-app.get("/pedidos1", (req, res) => {
-    verificar_Sesion(req, res);
-
+app.get("/pedidos0_mozo", verificar_Sesion, (req, res) => {
     res.render("pedidos1");
 });
 
