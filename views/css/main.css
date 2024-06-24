@@ -198,7 +198,7 @@ a > h2 {
     align-content: space-around;
     gap: 24px;
 }
-.ped_optn {
+.ped_optn, .end_optn {
   width: calc(40%);
   height: 150px;
   border: none;
@@ -211,17 +211,17 @@ a > h2 {
     align-items: center;
     gap: 8px;
 }
-.ped_optn:nth-child(4) {
+.end_optn {
   background-color: #ff4242;
 }
-.ped_optn:hover {
+.ped_optn:hover, .end_optn:hover {
   cursor: pointer;
   transition: 0.25s ease;
   background-color: transparent;
   color: #cccccc;
   border: 1px solid #cccccc;
 }
-.ped_optn:nth-child(4):hover {
+.end_optn:hover {
   color: #ff4242;
   border: 1px solid #FF4242;
 }
@@ -235,7 +235,7 @@ a > h2 {
   left: 0;
   background: rgba(0, 0, 0, 0.6);
   z-index: 10;
-  display: flex;
+  display: none;
     justify-content: center;
     align-items: center;
 }
