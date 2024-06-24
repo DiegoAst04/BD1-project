@@ -21,46 +21,58 @@
     <div class="sidebar">
       <ul class="upper">
         <li>
-          <div class="icon">
-            <i class="fa-solid fa-chart-line"></i>
-          </div>
-          Ventas
+          <a class="side-a" href="#">
+            <div class="side-icon">
+              <i class="fa-solid fa-chart-line"></i>
+            </div>
+            Ventas
+          </a>
         </li>
         <li>
-          <div class="icon">
-            <i class="fa-solid fa-sheet-plastic"></i>
-          </div>
-          Pedidos
+          <a class="side-a" href="/pedidos0">
+            <div class="side-icon">
+              <i class="fa-solid fa-sheet-plastic"></i>
+            </div>
+            Pedidos
+          </a>
         </li>
         <li>
-          <div class="icon">
-            <i class="fa-solid fa-users"></i>
-          </div>
-          Empleados
+          <a class="side-a" href="/empleados">
+            <div class="side-icon">
+              <i class="fa-solid fa-users"></i>
+            </div>
+            Empleados
+          </a>
         </li>
         <li>
-          <div class="icon">
-            <i class="fa-solid fa-cart-shopping"></i>
-          </div>
-          Productos
+          <a class="side-a" href="#">
+            <div class="side-icon">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </div>
+            Productos
+          </a>
         </li>
         <li>
-          <div class="icon">
-            <i class="fa-solid fa-plus"></i>
-          </div>
-          y otra más
+          <a class="side-a" href="#">
+            <div class="side-icon">
+              <i class="fa-solid fa-plus"></i>
+            </div>
+            y otra más
+          </a>
         </li>
       </ul>
       <ul class="lower">
         <li>
-          <div class="icon">
-            <i class="fa-solid fa-gear"></i>
-          </div>
-          Configuración
+          <a class="side-a" href="#">
+            <div class="side-icon">
+              <i class="fa-solid fa-gear"></i>
+            </div>
+            Configuración
+          </a>
         </li>
         <li>
-          <a href="/">
-            <div class="icon">
+          <a class="side-a" href="/logout">
+            <div class="side-icon">
               <i class="fa-solid fa-right-from-bracket"></i>
             </div>
             Cerrar Sesión
@@ -70,46 +82,61 @@
     </div>
     <div class="content">
       <div class="ped_opciones">
-        <div class="ped_optn">
+        <button class="ped_optn">
           <i class="fa-solid fa-bowl-food"></i>
           Platos
-        </div>
-        <div class="ped_optn">
+        </button>
+        <button class="ped_optn">
           <i class="fa-solid fa-mug-saucer"></i>
           Bebidas
-        </div>
-        <div class="ped_optn">
+        </button>
+        <button class="ped_optn">
           <i class="fa-solid fa-ice-cream"></i>
           Postres
-        </div>
-        <div class="ped_optn">
+        </button>
+        <button class="ped_optn">
           <i class="fa-solid fa-check"></i>
           Terminar pedido
-        </div>
+        </button>
+      </div>
+      
+      <div class="modal">
+        <span class="close">&times</span>
+        <h4>Seleccione item</h4>
+        <form action="">
+          <div>
+            <p>Hamburguesa</p>
+            <div class="qty">
+              <div class="qty-btn">-</div>
+              <input type="number" min="0" value="0">
+              <div class="qty-btn">+</div>
+            </div>
+          </div>
+        </form>
       </div>
     
-    <table class="table" id="orden">
-      <thead>
-          <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Descripcion</th>
-              <th>Tipo</th>
-              <th>Precio</th>
-          </tr>
-      </thead>
-      <tbody>
-        <% pedidos.forEach(plato => { %>
+      <table class="table" id="orden">
+        <thead>
             <tr>
-                <td><%= plato.ID %></td>
-                <td><%= plato.nombre %></td>
-                <td><%= plato.escripcion %></td>
-                <td><%= plato.tipo %></td>
-                <td><%= plato.precio %></td>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Tipo</th>
+                <th>Precio</th>
             </tr>
-        <% }); %>
-      </tbody>
-    </table>
-  </div>
-</script>
+        </thead>
+        <tbody>
+          <% pedidos.forEach(plato => { %>
+              <tr>
+                  <td><%= plato.ID %></td>
+                  <td><%= plato.nombre %></td>
+                  <td><%= plato.escripcion %></td>
+                  <td><%= plato.tipo %></td>
+                  <td><%= plato.precio %></td>
+              </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </article>
 </html>

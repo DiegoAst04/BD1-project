@@ -1,3 +1,6 @@
+# Restaurant Management System
+
+## First steps
 ``` sh
 $ npm install mysql
 $ npm update mysql

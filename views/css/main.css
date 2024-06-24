@@ -4,11 +4,6 @@
   box-sizing: border-box;
 }
 
-a{
-  text-decoration: none;
-  color: white;
-}
-
 body {
   background-color: #022237;
   font-family: 'Inter', sans-serif;
@@ -58,7 +53,9 @@ ul {
     gap: 10px;
 }
 
-li {
+.side-a {
+  color: white;
+  text-decoration: none;
   font-size: 16px;
   padding: 8px 12px;
   border-radius: 8px;
@@ -66,10 +63,10 @@ li {
     gap: 16px;
     align-items: center;
 }
-li:hover {
+.side-a:hover {
   background-color: #075378;
 }
-.icon {
+.side-icon {
   width: 25px;
   height: 25px;
   display: flex;
@@ -199,7 +196,8 @@ a > h2 {
 .ped_optn {
   width: calc(40%);
   height: 150px;
-  border: 1px solid white;
+  border: none;
+  background-color: #cccccc;
   border-radius: 8px;
   font-size: 24px;
   font-weight: 700;
@@ -209,5 +207,21 @@ a > h2 {
     gap: 8px;
 }
 .ped_optn:nth-child(4) {
-  background-color: hsl(0, 100%, 63%);
+  background-color: #ff4242;
+}
+.ped_optn:hover {
+  cursor: pointer;
+  transition: 0.25s ease;
+  background-color: transparent;
+  color: #cccccc;
+  border: 1px solid #cccccc;
+}
+.ped_optn:nth-child(4):hover {
+  color: #ff4242;
+  border: 1px solid #FF4242;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
 }
