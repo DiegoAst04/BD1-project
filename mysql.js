@@ -364,6 +364,29 @@ app.get("/pedidos2_caja/:mesaId", verificar_Sesion, (req, res) => {
     });
 });
 
+app.get("/productos_mozo", verificar_Sesion, (req, res) => {
+    const query = "SELECT * FROM Plato";  
+    connection.query(query, (err, results) => {
+        if (err) {
+            console.error('Error: ', err.message);  
+            res.status(500).send("Error en el servidor");
+            return;
+        }
+        res.render("productos_mozo", { pedidos: results });
+    });
+});
+
+app.get("/productos_caja", verificar_Sesion, (req, res) => {
+    const query = "SELECT * FROM Plato";  
+    connection.query(query, (err, results) => {
+        if (err) {
+            console.error('Error: ', err.message);  
+            res.status(500).send("Error en el servidor");
+            return;
+        }
+        res.render("productos_caja", { pedidos: results });
+    });
+});
 
 app.get("/logout", (req, res) => {
     req.session.destroy((err) => {

@@ -53,44 +53,6 @@
         </ul>
       </div>
       <div class="content">
-        <div class="ped_opciones">
-          <button class="ped_optn">
-            <i class="fa-solid fa-bowl-food"></i>
-            Platos
-          </button>
-          <button class="ped_optn">
-            <i class="fa-solid fa-mug-saucer"></i>
-            Bebidas
-          </button>
-          <button class="ped_optn">
-            <i class="fa-solid fa-ice-cream"></i>
-            Postres
-          </button>
-          <button class="end_optn">
-            <i class="fa-solid fa-check"></i>
-            Terminar pedido
-          </button>
-        </div>
-        
-        <div id="modal-window">
-          <div class="modal">
-            <div class="close">
-              <span>&times;</span>
-            </div>
-            <h3 class="modal-h3">Seleccione item</h3>
-            <form action="">
-              <div class="modal-elemnt">
-                <div class="qty">
-                  <div class="qty-btn">-</div>
-                  <input class="qty-val" type="number" min="0" max="99" value="0">
-                  <div class="qty-btn">+</div>
-                </div>
-              </div>
-              <button class="submit-btn">Añadir</button>
-            </form>
-          </div>
-        </div>
-      
         <table class="table" id="orden">
           <thead>
               <tr>
@@ -115,36 +77,5 @@
         </table>
       </div>
     </article>
-    <script>
-      const modal = document.querySelector('#modal-window');
-      const qtyBtns = modal.querySelectorAll('.qty-btn');
-      const qtyInput = modal.querySelector('.qty-val');
-      const closeBtn = modal.querySelector('.close');
-      const pedBtns = document.querySelectorAll('.ped_optn')
-
-      function openModal() {
-        modal.style.display = 'flex'
-      }
-      function closeModal() {
-        modal.style.display = 'none';
-      }
-      
-      qtyBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          let currentValue = parseInt(qtyInput.value);
-          if (btn.textContent === '+') {
-            currentValue++;
-          } else if (btn.textContent === '-' && currentValue > 0) {
-            currentValue--;
-          }
-          qtyInput.value = currentValue;
-        });
-      });
-
-      pedBtns.forEach(btn => {
-        btn.addEventListener('click', openModal);
-      })
-      closeBtn.addEventListener('click', closeModal); 
-    </script>
   </body>
 </html>
