@@ -277,6 +277,19 @@ app.get("/pedidos0_mozo", verificar_Sesion, (req, res) => {
     });
 });
 
+app.get("/pedidos1", verificar_Sesion, (req, res) => {
+    const mozoId = req.session.userId;
+
+    const query = 'SELECT DISTINCT m.ID, m.capacidad, m.ubicacion, e.nombre AS mozoNombre FROM Mesa m INNER JOIN Pedido p ON m.ID = p.ID_Mesa INNER JOIN Empleado e ON p.DNI_Empleado = e.DNI WHERE p.DNI_Empleado = ?';
+    connection.query(query, [mozoId], (err, results) => {
+        if (err) {
+            console.error('Error en la consulta SQL: ', err.message);
+            return res.status(500).send("Error en el servidor");
+        }
+        res.render("pedidos1", { mesas: results });
+    });
+});
+
 app.get("/logout", (req, res) => {
     req.session.destroy((err) => {
         if (err) {
@@ -285,10 +298,6 @@ app.get("/logout", (req, res) => {
         }
         res.redirect("/");
     });
-});
-
-app.get("/pedidos0_mozo", verificar_Sesion, (req, res) => {
-    res.render("pedidos1");
 });
 
 // Iniciar el servidor en el puerto 3000

@@ -29,19 +29,11 @@
             </a>
           </li>
           <li>
-            <a class="side-a" href="/pedidos0">
+            <a class="side-a" href="/pedidos0_mozo">
               <div class="side-icon">
                 <i class="fa-solid fa-sheet-plastic"></i>
               </div>
               Pedidos
-            </a>
-          </li>
-          <li>
-            <a class="side-a" href="/empleados">
-              <div class="side-icon">
-                <i class="fa-solid fa-users"></i>
-              </div>
-              Empleados
             </a>
           </li>
           <li>
@@ -83,36 +75,18 @@
       <div class="content">
         <h2>Seleccionar mesa</h2>
         <div class="mesas-container">
-          <div class="mesa">Mesa 1
-          <div class="subtitle">- Persona(s)</div>
-          <div class="subtitle">Ubicación</div>
-          <div class="subtitle">mozo: ---</div>
-          </div>
-          <div class="mesa">Mesa 2
-            <div class="subtitle">- Persona(s)</div>
-            <div class="subtitle">Ubicación</div>
-            <div class="subtitle">mozo: ---</div>
-          </div>
-          <div class="mesa">Mesa 3
-            <div class="subtitle">- Persona(s)</div>
-            <div class="subtitle">Ubicación</div>
-            <div class="subtitle">mozo: ---</div>
-          </div>
-          <div class="mesa">Mesa 4
-            <div class="subtitle">- Persona(s)</div>
-            <div class="subtitle">Ubicación</div>
-            <div class="subtitle">mozo: ---</div>
-          </div>
-          <div class="mesa">Mesa 5
-            <div class="subtitle">- Persona(s)</div>
-            <div class="subtitle">Ubicación</div>
-            <div class="subtitle">mozo: ---</div>
-          </div>
-          <div class="mesa">Mesa 6
-            <div class="subtitle">- Persona(s)</div>
-            <div class="subtitle">Ubicación</div>
-            <div class="subtitle">mozo: ---</div>
-          </div>
+          <% if (mesas.length > 0) { %>
+            <% mesas.forEach(mesa => { %>
+                <div class="mesa" id="mesa-<%= mesa.mesaId %>">
+                    <h2>Mesa <%= mesa.ID %></h2>
+                    <div class="subtitle">- Persona(s): <%= mesa.capacidad %></div>
+                    <div class="subtitle">Ubicación: <%= mesa.ubicacion %></div>
+                    <div class="subtitle">Mozo: <%= mesa.mozoNombre %></div>
+                </div>
+              <% }) %>
+          <% } else { %>
+              <p>No tienes mesas asignadas.</p>
+          <% } %>
         </div>
       </div>
     </article>
