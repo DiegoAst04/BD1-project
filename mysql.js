@@ -98,8 +98,7 @@ app.post("/login", (req, res) => {
                 } else if (puesto === 'Mozo') {
                     return res.status(200).json({ message: "Login exitoso", type: "success", redirect: "/pedidos0_mozo" });
                 } else {
-                    console.log("Puesto desconocido");
-                    return res.status(500).json({ message: "Error en el servidor", type: "error" });
+                    return res.status(200).json({ message: "Login exitoso", type: "success", redirect: "/info_propia" });
                 }
             });
         });
@@ -189,6 +188,8 @@ app.post("/register", (req, res) => {
                                 return res.status(200).send({ message: "Usuario registrado con éxito", type: "success", redirect: "/empleados" });
                             } else if (puesto === 'Mozo') {
                                 return res.status(200).send({ message: "Usuario registrado con éxito", type: "success", redirect: "/pedidos0_mozo" });
+                            }else{
+                                return res.status(200).send({ message: "Usuario registrado con éxito", type: "success", redirect: "/info_propia" });
                             }
                         });
                     });
@@ -225,6 +226,30 @@ app.get("/empleados", verificar_Sesion, (req, res) => {
             return;
         }
         res.render("empleados", { empleados: results });
+    });
+});
+
+app.get("/info_propia", verificar_Sesion, (req, res) => {
+    const query = "SELECT e.DNI, e.nombre, e.apellido, e.puesto, e.salario, e.ID_Caja, h.turno, h.hora_inicio, h.hora_fin FROM Empleado e INNER JOIN Horarios h ON e.ID_Horarios = h.ID WHERE e.DNI = ?";
+    connection.query(query, [req.session.userId], (err, results) => {
+        if (err) {
+            console.error('Error: ', err.message);
+            res.status(500).send("Error en el servidor");
+            return;
+        }
+        res.render("info_propia", { empleados: results });
+    });
+});
+
+app.get("/info_propia_mozo", verificar_Sesion, (req, res) => {
+    const query = "SELECT e.DNI, e.nombre, e.apellido, e.puesto, e.salario, e.ID_Caja, h.turno, h.hora_inicio, h.hora_fin FROM Empleado e INNER JOIN Horarios h ON e.ID_Horarios = h.ID WHERE e.DNI = ?";
+    connection.query(query, [req.session.userId], (err, results) => {
+        if (err) {
+            console.error('Error: ', err.message);
+            res.status(500).send("Error en el servidor");
+            return;
+        }
+        res.render("info_propia_mozo", { empleados: results });
     });
 });
 
