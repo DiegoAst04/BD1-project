@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pedidos</title>
+  <title>Empleados</title>
   <!--CDN Font Awesome-->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   
@@ -73,7 +73,7 @@
         <li>
           <a class="side-a" href="/logout">
             <div class="side-icon">
-              <i class="fa-solid fa-right-from-bracket"></i>
+                <i class="fa-solid fa-right-from-bracket"></i>
             </div>
             Cerrar Sesión
           </a>
@@ -81,99 +81,39 @@
       </ul>
     </div>
     <div class="content">
-      <div class="ped_opciones">
-        <button class="ped_optn">
-          <i class="fa-solid fa-bowl-food"></i>
-          Platos
-        </button>
-        <button class="ped_optn">
-          <i class="fa-solid fa-mug-saucer"></i>
-          Bebidas
-        </button>
-        <button class="ped_optn">
-          <i class="fa-solid fa-ice-cream"></i>
-          Postres
-        </button>
-        <button class="ped_optn">
-          <i class="fa-solid fa-check"></i>
-          Terminar pedido
-        </button>
-      </div>
-      
-      <div id="modal-window">
-        <div class="modal">
-          <div class="close">
-            <span>&times</span>
-          </div>
-          <h3 class="modal-h3">Seleccione item</h3>
-          <form action="">
-            <div class="modal-elemnt">
-              <%plato>
-              <div class="qty">
-                <div class="qty-btn">-</div>
-                <input class="qty-val" type="number" min="0" max="99" value="0">
-                <div class="qty-btn">+</div>
-              </div>
-            </div>
-            <button class="submit-btn">Añadir</button>
-          </form>
-        </div>
-      </div>
-    
-      <table class="table" id="orden">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Descripcion</th>
-                <th>Tipo</th>
-                <th>Precio</th>
-            </tr>
-        </thead>
-        <tbody>
-          <% pedidos.forEach(plato => { %>
+      <h2>Lista de Empleados</h2>
+      <table class="table" id="empleados">
+          <thead>
               <tr>
-                  <td><%= plato.ID %></td>
-                  <td><%= plato.nombre %></td>
-                  <td><%= plato.escripcion %></td>
-                  <td><%= plato.tipo %></td>
-                  <td><%= plato.precio %></td>
+                  <th>DNI</th>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Puesto</th>
+                  <th>Salario</th>
+                  <th>Caja</th>
+                  <th>Horarios</th>
+                  <th></th>
               </tr>
-          <% }); %>
+          </thead>
+          <tbody>
+            <% empleados.forEach(empleado => { %>
+                <tr id="empleado-<%= empleado.DNI %>">
+                    <td><%= empleado.DNI %></td>
+                    <td><%= empleado.nombre %></td>
+                    <td><%= empleado.apellido %></td>
+                    <td><%= empleado.puesto %></td>
+                    <td><%= empleado.salario %></td>
+                    <td><%= empleado.ID_Caja %></td>
+                    <td><%= empleado.turno %></td>
+                    <td>
+                        <button class="btn-delete" onclick="deleteEmpleado('<%= empleado.DNI %>')">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </td>
+                </tr>
+            <% }) %>
         </tbody>
+    </table>
       </table>
-    </div>
-  </article>
-  <script>
-    const modal = document.querySelector('#modal-window');
-    const qtyBtns = modal.querySelectorAll('.qty-btn');
-    const qtyInput = modal.querySelector('.qty-val');
-    const closeBtn = modal.querySelector('.close');
-    const pedBtns = document.querySelectorAll('.ped_optn')
-
-    function openModal() {
-      modal.style.display = 'flex'
-    }
-    function closeModal() {
-      modal.style.display = 'none';
-    }
-    
-    qtyBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        let currentValue = parseInt(qtyInput.value);
-        if (btn.textContent === '+') {
-          currentValue++;
-        } else if (btn.textContent === '-' && currentValue > 0) {
-          currentValue--;
-        }
-        qtyInput.value = currentValue;
-      });
-    });
-
-    pedBtns.forEach(btn => {
-      btn.addEventListener('click', openModal);
-    })
-    closeBtn.addEventListener('click', closeModal); 
-
-  </script>
+</script>
 </html>

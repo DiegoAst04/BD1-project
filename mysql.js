@@ -290,6 +290,30 @@ app.get("/pedidos1", verificar_Sesion, (req, res) => {
     });
 });
 
+app.get("/pedidos1_caja", verificar_Sesion, (req, res) => {
+
+    const query = 'SELECT DISTINCT m.ID, m.capacidad, m.ubicacion, e.nombre AS mozoNombre FROM Mesa m INNER JOIN Empleado e ON m.DNI_empleado = e.DNI';
+    connection.query(query, (err, results) => {
+        if (err) {
+            console.error('Error en la consulta SQL: ', err.message);
+            return res.status(500).send("Error en el servidor");
+        }
+        res.render("pedidos1", { mesas: results });
+    });
+});
+
+app.get("/pedidos2", verificar_Sesion, (req, res) => {
+    const query = "SELECT * FROM plato";  
+    connection.query(query, (err, results) => {
+        if (err) {
+            console.error('Error: ', err.message);
+            res.status(500).send("Error en el servidor");
+            return;
+        }
+        res.render("pedidos2", { pedidos: results });
+    });
+});
+
 app.get("/logout", (req, res) => {
     req.session.destroy((err) => {
         if (err) {

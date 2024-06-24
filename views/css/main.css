@@ -163,6 +163,11 @@ a > h2 {
   position: relative;
 }
 
+.mesa a{
+  text-decoration: none;
+  color: black;
+}
+
 .mesa .subtitle {
   font-size: 20px;
   color: black;
