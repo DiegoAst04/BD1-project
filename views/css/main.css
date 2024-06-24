@@ -221,6 +221,68 @@ a > h2 {
   border: 1px solid #FF4242;
 }
 
+/* >>>>>>>>MODAL WINDOW<<<<<<<< */
+#modal-window {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 10;
+  display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.modal {
+  color: black;
+  background: #e6ecf0;
+  padding: 12px 20px;
+  border-radius: 12px;
+  width: 450px;
+  text-align: center;
+}
+.close {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+.close > span {
+  line-height: 20px;
+  cursor: pointer;
+  font-size: 36px;
+}
+.modal-h3 {
+  margin: 0 0 12px 0;
+}
+.modal-elemnt {
+  display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.qty {
+  display: flex;
+    flex-direction: row;
+}
+.qty-btn, .qty-val {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  border: 1px solid;
+  border-radius: 6px;
+  outline: none;
+}
+.qty-btn {
+  cursor: pointer;
+  background: #d9d9d9;
+  font-size: 20px;
+}
+.submit-btn {
+  cursor: pointer;
+  padding: 8px 20px;
+  border: 1px solid;
+  border-radius: 12px;
+}
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
