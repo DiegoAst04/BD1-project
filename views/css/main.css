@@ -198,9 +198,18 @@ a > h2 {
     align-content: space-around;
     gap: 24px;
 }
-.ped_optn, .end_optn {
-  width: calc(40%);
-  height: 150px;
+.ped_btns {
+  margin: 30px 0;
+  display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+.platos {
+  padding: 0 40px;
+}
+.add_btn, .end_optn {
+  width: 200px;
+  height: 80px;
   border: none;
   background-color: #cccccc;
   border-radius: 8px;
@@ -210,11 +219,12 @@ a > h2 {
     justify-content: center;
     align-items: center;
     gap: 8px;
-}
+  }
 .end_optn {
+  padding-left: 16px;
   background-color: #ff4242;
 }
-.ped_optn:hover, .end_optn:hover {
+.add_btn:hover, .end_optn:hover {
   cursor: pointer;
   transition: 0.25s ease;
   background-color: transparent;
@@ -273,13 +283,13 @@ a > h2 {
   width: 30px;
   height: 30px;
   text-align: center;
-  border: 1px solid;
-  border-radius: 6px;
+  border: none;
   outline: none;
 }
 .qty-btn {
   cursor: pointer;
-  background: #d9d9d9;
+  color: white;
+  background: #111111;
   font-size: 20px;
 }
 .submit-btn {
